@@ -66,4 +66,4 @@ CREATE INDEX idx_patients_phone ON patients(phone);
 -- Enable Realtime for tokens
 -- Note: This is usually done via Supabase UI or ALTER PUBLICATION supabase_realtime ADD TABLE tokens;
 -- But it requires permissions. I'll add the command here.
--- ALTER PUBLICATION supabase_realtime ADD TABLE tokens;
+ALTER PUBLICATION supabase_realtime ADD TABLE tokens;
