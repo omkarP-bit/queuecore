@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 export async function POST(req: Request) {
   try {
@@ -19,22 +19,20 @@ export async function POST(req: Request) {
       }
     `;
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": CLAUDE_API_KEY || "",
-        "anthropic-version": "2023-06-01"
+        "Authorization": `Bearer ${GROQ_API_KEY || ""}`
       },
       body: JSON.stringify({
-        model: "claude-3-haiku-20240307",
-        max_tokens: 150,
+        model: "llama-3.3-70b-versatile",
         messages: [{ role: "user", content: prompt }]
       })
     });
 
     const data = await response.json();
-    const content = data.content[0].text;
+    const content = data.choices[0].message.content;
     const result = JSON.parse(content.substring(content.indexOf('{'), content.lastIndexOf('}') + 1));
 
     return NextResponse.json(result);

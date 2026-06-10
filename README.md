@@ -67,4 +67,5 @@ InstaAmbulance/
 - **Database:** Supabase
 - **Caching:** Redis
 - **Testing:** Vitest
+- **AI:** [Groq API](https://console.groq.com/) (Triage + Switching)
 - **Containerization:** Docker & Kubernetes
