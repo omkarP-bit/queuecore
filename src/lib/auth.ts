@@ -1,9 +1,9 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { supabaseAdmin } from "@/lib/supabase";
+import { NextAuthOptions, User } from "next-auth";
 
-/** @type {import("next-auth").NextAuthOptions} */
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: 24 * 60 * 60,
@@ -20,7 +20,7 @@ export const authOptions = {
         hospitalCode: { label: "Hospital Code", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials: any) {
         if (!credentials?.hospitalCode || !credentials?.password) return null;
 
         const { data: hospital } = await supabaseAdmin
@@ -35,7 +35,7 @@ export const authOptions = {
             name: hospital.name,
             role: "receptionist",
             hospitalId: hospital.id,
-          };
+          } as User;
         }
 
         return null;
@@ -43,12 +43,12 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account?.provider === "google") {
         const { data: existingPatient } = await supabaseAdmin
           .from("patients")
           .select("id")
-          .eq("email", user.email)
+          .eq("email", user.email!)
           .single();
 
         if (!existingPatient) {
@@ -62,25 +62,25 @@ export const authOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role || "patient";
-        if (token.role === "patient") {
+        (token as any).role = (user as any).role || "patient";
+        if ((token as any).role === "patient") {
           const { data: patient } = await supabaseAdmin
             .from("patients")
             .select("id")
-            .eq("email", token.email)
+            .eq("email", token.email!)
             .single();
-          token.patient_id = patient?.id;
+          (token as any).patient_id = patient?.id;
         } else {
-          token.hospital_id = user.hospitalId;
+          (token as any).hospital_id = (user as any).hospitalId;
         }
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role;
-        session.user.patient_id = token.patient_id;
-        session.user.hospital_id = token.hospital_id;
+        (session.user as any).role = (token as any).role;
+        (session.user as any).patient_id = (token as any).patient_id;
+        (session.user as any).hospital_id = (token as any).hospital_id;
       }
       return session;
     },

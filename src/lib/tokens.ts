@@ -11,7 +11,7 @@ const SECRET = await crypto.subtle.importKey(
   ["sign", "verify"]
 );
 
-export async function signTokenData(data) {
+export async function signTokenData(data: any): Promise<string> {
   const payload = new Uint8Array(Buffer.from(JSON.stringify(data), "utf8"));
   const jwt = await new CompactSign(payload)
     .setProtectedHeader({ alg: "HS256", typ: "JWT" })
@@ -19,7 +19,7 @@ export async function signTokenData(data) {
   return jwt;
 }
 
-export async function verifyTokenData(token) {
+export async function verifyTokenData(token: string): Promise<any> {
   try {
     const { payload } = await compactVerify(token, SECRET);
     const decoded = JSON.parse(new TextDecoder().decode(payload));
