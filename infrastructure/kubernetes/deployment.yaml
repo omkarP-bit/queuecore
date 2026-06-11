@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: instaambulance-app
-        image: ghcr.io/omkarp-bit/instaambulance-app:latest
+        image: ghcr.io/omkarp-bit/instaambulance:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
