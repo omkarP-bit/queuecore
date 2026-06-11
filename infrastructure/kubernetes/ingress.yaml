@@ -4,6 +4,7 @@ metadata:
   name: queuecure-ingress
   namespace: queuecure
 spec:
+  ingressClassName: nginx
   rules:
   - host: queuecure.example.com
     http:
