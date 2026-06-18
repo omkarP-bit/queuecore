@@ -25,7 +25,23 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey, {
 
 const redis = new Redis(process.env.REDIS_URL || '', {
   tls: process.env.REDIS_URL?.startsWith('rediss://') ? {} : undefined,
-  retryStrategy: (times) => Math.min(times * 50, 2000),
+  retryStrategy: (times) => {
+    const delay = Math.min(times * 100, 3000);
+    return delay;
+  },
+});
+
+redis.on('error', (err) => {
+  // Only log if it's not a temporary DNS lookup failure during startup
+  if (err.message.includes('EAI_AGAIN')) {
+    console.log('[Redis] Waiting for DNS resolution...');
+  } else {
+    console.error('[Redis Error]', err.message);
+  }
+});
+
+redis.on('ready', () => {
+  console.log('[Redis] Main client connected and ready');
 });
 
 const secretString = process.env.NEXTAUTH_SECRET || "fallback-secret-for-signing-tokens-that-is-at-least-32-chars";
@@ -62,6 +78,10 @@ app.get('/queue/stream', (req, res) => {
   const subRedis = new Redis(process.env.REDIS_URL || '', {
     tls: process.env.REDIS_URL?.startsWith('rediss://') ? {} : undefined,
     retryStrategy: (times) => Math.min(times * 50, 2000),
+  });
+
+  subRedis.on('error', (err) => {
+    console.error('[SubRedis Error]', err.message);
   });
   
   res.write(`data: ${JSON.stringify({ type: 'CONNECTED' })}\n\n`);
