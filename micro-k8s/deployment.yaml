@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: auth-service
-        image: auth-service:latest
+        image: queuecore-auth-service:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3002
         envFrom:
@@ -41,7 +42,8 @@ spec:
     spec:
       containers:
       - name: hospital-service
-        image: hospital-service:latest
+        image: queuecore-hospital-service:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3001
         envFrom:
@@ -67,7 +69,8 @@ spec:
     spec:
       containers:
       - name: queue-service
-        image: queue-service:latest
+        image: queuecore-queue-service:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3003
         envFrom:
@@ -93,7 +96,8 @@ spec:
     spec:
       containers:
       - name: triage-service
-        image: triage-service:latest
+        image: queuecore-triage-service:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3004
         envFrom:
@@ -119,7 +123,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: frontend:latest
+        image: queuecore-frontend:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5173
 ---
