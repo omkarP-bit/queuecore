@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: queuecure-config
+  namespace: queuecure
+data:
+  REDIS_URL: "redis://redis:6379"
+  AUTH_SERVICE_URL: "http://auth-service:3002"
+  HOSPITAL_SERVICE_URL: "http://hospital-service:3001"
+  QUEUE_SERVICE_URL: "http://queue-service:3003"
+  TRIAGE_SERVICE_URL: "http://triage-service:3004"

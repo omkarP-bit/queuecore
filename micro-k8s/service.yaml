@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: queuecure
+spec:
+  selector:
+    app: auth-service
+  ports:
+  - port: 3002
+    targetPort: 3002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hospital-service
+  namespace: queuecure
+spec:
+  selector:
+    app: hospital-service
+  ports:
+  - port: 3001
+    targetPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: queue-service
+  namespace: queuecure
+spec:
+  selector:
+    app: queue-service
+  ports:
+  - port: 3003
+    targetPort: 3003
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: triage-service
+  namespace: queuecure
+spec:
+  selector:
+    app: triage-service
+  ports:
+  - port: 3004
+    targetPort: 3004
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: queuecure
+spec:
+  selector:
+    app: frontend
+  ports:
+  - port: 80
+    targetPort: 5173
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: queuecure
+spec:
+  selector:
+    app: redis
+  ports:
+  - port: 6379
+    targetPort: 6379

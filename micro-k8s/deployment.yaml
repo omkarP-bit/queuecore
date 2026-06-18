@@ -1,0 +1,146 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: queuecure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+      - name: auth-service
+        image: auth-service:latest
+        ports:
+        - containerPort: 3002
+        envFrom:
+        - secretRef:
+            name: queuecure-secrets
+        - configMapRef:
+            name: queuecure-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hospital-service
+  namespace: queuecure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hospital-service
+  template:
+    metadata:
+      labels:
+        app: hospital-service
+    spec:
+      containers:
+      - name: hospital-service
+        image: hospital-service:latest
+        ports:
+        - containerPort: 3001
+        envFrom:
+        - secretRef:
+            name: queuecure-secrets
+        - configMapRef:
+            name: queuecure-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queue-service
+  namespace: queuecure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: queue-service
+  template:
+    metadata:
+      labels:
+        app: queue-service
+    spec:
+      containers:
+      - name: queue-service
+        image: queue-service:latest
+        ports:
+        - containerPort: 3003
+        envFrom:
+        - secretRef:
+            name: queuecure-secrets
+        - configMapRef:
+            name: queuecure-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triage-service
+  namespace: queuecure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triage-service
+  template:
+    metadata:
+      labels:
+        app: triage-service
+    spec:
+      containers:
+      - name: triage-service
+        image: triage-service:latest
+        ports:
+        - containerPort: 3004
+        envFrom:
+        - secretRef:
+            name: queuecure-secrets
+        - configMapRef:
+            name: queuecure-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: queuecure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: frontend:latest
+        ports:
+        - containerPort: 5173
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: queuecure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
