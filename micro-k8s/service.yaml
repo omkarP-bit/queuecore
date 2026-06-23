@@ -51,7 +51,10 @@ kind: Service
 metadata:
   name: frontend
   namespace: queuecure
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
 spec:
+  type: LoadBalancer
   selector:
     app: frontend
   ports:

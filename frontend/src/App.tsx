@@ -1,122 +1,97 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [view, setView] = useState<'patient' | 'receptionist'>('patient');
+  const [queueStatus, setQueueStatus] = useState<any>(null);
+  const [doctorId, setDoctorId] = useState('test');
+
+  useEffect(() => {
+    // SSE Stream for live updates
+    const eventSource = new EventSource(`https://queuecure.yourdomain.com/api/queue/stream?doctor_id=${doctorId}`);
+    
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.heartbeat) return; // ignore keepalive
+      setQueueStatus(data);
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, [doctorId]);
+
+  const handleCallNext = async () => {
+    // Mock API call to queue service
+    alert('Called Next Patient! (Backend not connected directly yet)');
+    // In real app, you would make a POST to /queue/call-next
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="app-container">
+      <header className="app-header">
+        <h1>QueueCure</h1>
+        <div className="view-switcher">
+          <button 
+            className={view === 'patient' ? 'active' : ''} 
+            onClick={() => setView('patient')}
+          >
+            Patient View
+          </button>
+          <button 
+            className={view === 'receptionist' ? 'active' : ''} 
+            onClick={() => setView('receptionist')}
+          >
+            Receptionist View
+          </button>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <main className="app-main">
+        {view === 'patient' ? (
+          <div className="patient-dashboard">
+            <h2>Your Wait Status</h2>
+            <div className="status-card">
+              <div className="status-item">
+                <span className="label">Your Position:</span>
+                <span className="value highlight">{queueStatus?.position || '2'}</span>
+              </div>
+              <div className="status-item">
+                <span className="label">Estimated Time:</span>
+                <span className="value">{queueStatus?.ets || '15 mins'}</span>
+              </div>
+              <div className="status-item">
+                <span className="label">Currently Serving:</span>
+                <span className="value">{queueStatus?.currentlyServing || 'Token 42'}</span>
+              </div>
+            </div>
+            <p className="sse-note">Live updates active via SSE...</p>
+          </div>
+        ) : (
+          <div className="receptionist-dashboard">
+            <h2>Doctor Queue Manager</h2>
+            <div className="control-panel">
+              <div className="current-patient">
+                <h3>Currently Serving: {queueStatus?.currentlyServing || 'Token 42'}</h3>
+                <p>Time elapsed: 5m 30s</p>
+              </div>
+              <button className="call-next-btn" onClick={handleCallNext}>
+                Call Next Patient
+              </button>
+            </div>
+            <div className="queue-list">
+              <h3>Next in Line</h3>
+              <ul>
+                <li>Token 43 - Expected 10:15 AM</li>
+                <li>Token 44 - Expected 10:25 AM</li>
+                <li>Token 45 - Expected 10:35 AM</li>
+              </ul>
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
