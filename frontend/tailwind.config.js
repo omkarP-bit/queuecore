@@ -21,12 +21,13 @@ export default {
         surface: '#1A1F2E',
         bg: {
           DEFAULT: '#0D1117',
-          light: '#1A1F2E',
+          light: '#121827',
+          dark: '#090B10',
         },
         text: {
           primary: '#F8FAFC',
           secondary: '#64748B',
-          muted: '#A0AEC0',
+          muted: '#94A3B8',
         },
         border: '#2D3748',
       },
@@ -36,19 +37,19 @@ export default {
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       boxShadow: {
-        card: '0 2px 8px rgba(26,107,255,0.08), 0 0 0 1px #E2E8F0',
-        float: '0 8px 32px rgba(26,107,255,0.12), 0 2px 8px rgba(0,0,0,0.04)',
+        card: '0 10px 30px -10px rgba(0,0,0,0.5)',
+        float: '0 10px 30px -10px rgba(0,0,0,0.5), 0 0 20px rgba(26,107,255,0.2)',
         modal: '0 24px 64px rgba(0,0,0,0.16)',
       },
       animation: {
-        'pulse-ring': 'pulse-ring 1.5s ease-in-out infinite',
+        'pulse-ring': 'pulse-ring 1.5s ease-out infinite',
       },
       keyframes: {
         'pulse-ring': {
           '0%': { transform: 'scale(1)', opacity: '0.4' },
-          '100%': { transform: 'scale(1.6)', opacity: '0' },
-        }
-      }
+          '100%': { transform: 'scale(1.8)', opacity: '0' },
+        },
+      },
     },
   },
   plugins: [],

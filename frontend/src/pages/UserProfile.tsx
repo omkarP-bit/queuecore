@@ -10,15 +10,11 @@ export default function UserProfile() {
   useEffect(() => {
     const fetchUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        setUser(session.user);
-      } else {
+      if (session?.user) setUser(session.user);
+      else {
         const localUser = localStorage.getItem('user');
-        if (localUser) {
-          setUser(JSON.parse(localUser));
-        } else {
-          navigate('/login');
-        }
+        if (localUser) setUser(JSON.parse(localUser));
+        else navigate('/login');
       }
       setLoading(false);
     };
@@ -32,45 +28,40 @@ export default function UserProfile() {
     navigate('/login');
   };
 
-  if (loading) return <div className="p-8">Loading profile...</div>;
+  if (loading) return <div className="min-h-screen bg-bg text-text-primary flex items-center justify-center">Loading profile...</div>;
 
   return (
-    <div className="min-h-screen bg-[#F0F4F8] p-8 font-['Inter']">
-      <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
-        <h2 className="text-3xl font-bold text-[#0D4F6C] mb-6">User Profile</h2>
-        <div className="space-y-4 text-slate-700">
-          <div className="flex items-center gap-4 border-b border-slate-100 pb-4">
+    <div className="min-h-screen bg-bg px-4 py-10 text-white font-sans">
+      <div className="max-w-2xl mx-auto rounded-[28px] border border-white/10 bg-surface/90 p-8 shadow-card">
+        <h2 className="text-2xl font-semibold text-white mb-6">Your Profile</h2>
+        <div className="space-y-6">
+          <div className="flex items-center gap-6 border-b border-white/5 pb-6">
             {user?.user_metadata?.avatar_url ? (
-              <img src={user.user_metadata.avatar_url} alt="Avatar" className="w-16 h-16 rounded-full shadow" />
+              <img src={user.user_metadata.avatar_url} alt="Avatar" className="w-20 h-20 rounded-full shadow-sm" />
             ) : (
-              <div className="w-16 h-16 bg-[#7B3FE4] text-white rounded-full flex items-center justify-center text-2xl font-bold">
+              <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center text-2xl font-bold">
                 {user?.user_metadata?.full_name?.[0] || user?.name?.[0] || user?.email?.[0]?.toUpperCase() || 'U'}
               </div>
             )}
             <div>
-              <h3 className="text-xl font-semibold">{user?.user_metadata?.full_name || user?.name || 'Unknown User'}</h3>
-              <p className="text-slate-500">{user?.email}</p>
+              <h3 className="text-xl font-semibold text-white">{user?.user_metadata?.full_name || user?.name || 'Unknown User'}</h3>
+              <p className="text-sm text-text-secondary">{user?.email}</p>
             </div>
           </div>
-          
-          <div className="pt-4">
-            <h4 className="font-semibold mb-2">Account Details</h4>
-            <p><span className="font-medium">Role:</span> {user?.role || 'Patient'}</p>
+
+          <div>
+            <h4 className="text-sm text-text-secondary mb-2">Account Details</h4>
+            <div className="rounded-[16px] border border-white/5 bg-bg/80 p-4">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-text-secondary">Role</span>
+                <span className="font-medium text-white">{user?.role || 'Patient'}</span>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-slate-100">
-            <button 
-              onClick={handleLogout}
-              className="px-6 py-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 font-medium transition-colors"
-            >
-              Sign Out
-            </button>
-            <button
-              onClick={() => navigate(-1)}
-              className="ml-4 px-6 py-2 bg-slate-50 text-slate-600 rounded-xl hover:bg-slate-100 font-medium transition-colors"
-            >
-              Go Back
-            </button>
+          <div className="pt-4 flex gap-3">
+            <button onClick={handleLogout} className="btn-primary flex-1">Sign Out</button>
+            <button onClick={() => navigate(-1)} className="btn-secondary">Go Back</button>
           </div>
         </div>
       </div>

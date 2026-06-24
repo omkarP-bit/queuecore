@@ -5,63 +5,105 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-bg text-text-primary font-sans antialiased;
+  :root {
+    color-scheme: dark;
   }
-  
+
+  body {
+    @apply bg-bg text-text-primary font-sans antialiased min-h-screen;
+    background-color: #0D1117;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    @apply font-sans;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-[-0.02em];
+  }
+
+  ::selection {
+    @apply bg-primary text-white;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white font-medium rounded-[12px] h-[48px] px-6 transition-all;
+    @apply bg-primary text-white font-medium rounded-[16px] h-[48px] px-6 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[0_4px_14px_rgba(26,107,255,0.25)];
   }
   .btn-primary:hover {
-    @apply bg-primary-dark -translate-y-[1px] shadow-md;
+    @apply -translate-y-1 shadow-[0_6px_20px_rgba(26,107,255,0.35)];
   }
-  .btn-primary:active {
-    @apply scale-[0.98];
-  }
-  
+
   .btn-secondary {
-    @apply border-[1.5px] border-primary text-primary font-medium rounded-[12px] h-[48px] px-6 bg-transparent transition-all;
+    @apply border-[1.5px] border-primary text-primary font-medium rounded-[16px] h-[48px] px-6 bg-transparent transition-all duration-300;
   }
-  
+  .btn-secondary:hover {
+    @apply bg-white/10;
+  }
+
   .btn-ghost {
-    @apply text-text-secondary font-medium rounded-[12px] h-[48px] px-6 transition-colors hover:bg-bg;
+    @apply text-text-secondary hover:text-white rounded-[16px] h-[48px] px-6 transition-colors duration-300;
   }
-  
+
   .input-field {
-    @apply h-[52px] border-[1.5px] border-border rounded-[10px] px-4 w-full outline-none transition-all;
+    @apply h-[52px] border-[1.5px] border-border rounded-[16px] px-4 w-full bg-bg text-text-primary outline-none transition-all duration-300;
   }
   .input-field:focus {
-    @apply border-primary shadow-[0_0_0_3px_#E8F0FF];
+    @apply border-primary shadow-[0_0_0_3px_rgba(26,107,255,0.16)];
   }
-  
+
   .card {
-    @apply bg-surface border border-border rounded-[24px] p-6 transition-all duration-300 shadow-none;
+    @apply bg-surface border border-border rounded-[24px] p-6 transition-all duration-300;
   }
+
+  .glass-card {
+    @apply bg-[rgba(26,31,46,0.75)] border border-white/10 rounded-[32px] p-6 backdrop-blur-[20px] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)];
+  }
+
   .card-hover:hover {
-    @apply -translate-y-[2px] border-primary/30 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5),_0_0_20px_rgba(26,107,255,0.2)];
+    @apply -translate-y-1 border-primary/30 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5),0_0_20px_rgba(26,107,255,0.2)];
   }
-  
-  .badge-routine {
-    @apply bg-[#F7F8FA] text-[#4A5568] border border-border px-2 py-1 rounded-sm text-[11px] font-medium flex items-center gap-1;
+
+  .text-underline-blue {
+    @apply relative inline-block;
+  }
+  .text-underline-blue::after {
+    content: '';
+    @apply absolute left-0 bottom-1 w-full h-2 bg-primary/20;
+    z-index: -1;
+  }
+
+  .pulse-ring::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background-color: currentColor;
+    animation: pulse-ring 1.5s ease-out infinite;
+  }
+
+  .badge-pill {
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold;
+  }
+
+  .badge-available {
+    @apply bg-accent/20 text-accent border border-accent/20;
   }
   .badge-urgent {
-    @apply bg-[#FFF4F0] text-urgent border border-[#FDBA9A] px-2 py-1 rounded-sm text-[11px] font-medium flex items-center gap-1;
+    @apply bg-urgent/10 text-urgent border border-urgent/20;
   }
   .badge-emergency {
-    @apply bg-[#FFF0F0] text-emergency border border-[#FECACA] px-2 py-1 rounded-sm text-[11px] font-medium flex items-center gap-1;
+    @apply bg-emergency/10 text-emergency border border-emergency/20;
   }
 }
 
-/* Signature Pulse Ring */
-.pulse-ring-container {
-  @apply relative flex items-center justify-center;
-}
-.pulse-ring-element {
-  @apply absolute inset-0 rounded-full bg-accent opacity-40 animate-pulse-ring;
+@layer utilities {
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.4; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
 }

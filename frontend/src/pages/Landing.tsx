@@ -1,178 +1,156 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, Zap } from 'lucide-react';
-
+import { ArrowRight, Zap } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
 export default function Landing() {
   return (
-    <div className="font-sans text-text-primary bg-bg w-full overflow-x-hidden">
+    <div className="font-sans text-text-primary bg-bg min-h-screen overflow-x-hidden">
       <Navbar />
 
-      {/* SECTION 2: HERO */}
-      <section className="pt-24 pb-16 px-6 max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center gap-16 relative">
-        {/* LEFT */}
-        <div className="lg:w-1/2 flex flex-col items-start z-10">
-          <div className="text-[14px] font-medium text-text-secondary mb-6 tracking-wide uppercase">
-            Trusted by 200+ clinics in Pune & Mumbai
-          </div>
-          <h1 className="text-[56px] md:text-[72px] font-display font-bold text-text-primary leading-[1.05] mb-8">
-            <span className="relative inline-block text-white">
-              <span className="relative z-10">Skip</span>
-              <div className="absolute bottom-2 left-0 w-full h-3 bg-primary -z-10" />
-            </span> the <br/>
-            <span className="relative inline-block text-text-muted line-through decoration-emergency decoration-[4px]">
-              3-hour
-            </span> <br/>
-            waiting room.
-          </h1>
-          <p className="text-[18px] md:text-[21px] text-text-secondary mb-10 max-w-lg leading-relaxed">
-            Book your token before you leave home. Know exactly when to arrive.
-          </p>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-[420px] bg-gradient-to-b from-primary/15 to-transparent pointer-events-none" />
 
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Link to="/patient/find" className="btn-primary h-[56px] px-8 text-[17px] flex items-center justify-center gap-2">
-              Book a Token <ArrowRight className="w-5 h-5" />
-            </Link>
-            <button className="btn-secondary h-[56px] px-8 text-[17px] flex items-center justify-center gap-2 border-border text-text-primary hover:bg-white">
-              Watch demo
-            </button>
-          </div>
-        </div>
-
-        {/* RIGHT: Live Demo Card */}
-        <div className="lg:w-1/2 w-full max-w-[440px] relative z-10">
-          {/* Decorative blurred blob */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[80px] -z-10" />
-          
-          <div className="card shadow-modal p-8 border-t-4 border-t-primary animate-fade-up bg-surface/75 backdrop-blur-[20px] border border-white/10">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-[24px]">🏥</div>
-              <div>
-                <div className="font-display font-bold text-[17px] text-white">City Hospital</div>
-                <div className="text-[14px] text-text-secondary">Dr. Priya Sharma · Cardiology</div>
+        <div className="max-w-7xl mx-auto px-6 pt-20 pb-24 lg:pb-32">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+            <div className="lg:w-6/12 space-y-8">
+              <div className="inline-flex items-center gap-3 rounded-full bg-primary/10 px-4 py-2 text-xs uppercase tracking-[0.28em] text-primary font-semibold">
+                <span className="inline-flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+                Live in Bangalore & Delhi
               </div>
-            </div>
 
-            <div className="bg-bg rounded-[16px] p-6 text-center shadow-none border border-border relative overflow-hidden mb-6">
-              <div className="text-[11px] font-medium text-text-secondary tracking-wider mb-2">NOW SERVING</div>
-              <div className="font-mono text-[80px] font-bold text-white leading-none tabular-nums">#47</div>
-            </div>
+              <div>
+                <h1 className="text-5xl md:text-6xl xl:text-7xl font-display font-bold tracking-[-0.04em] leading-tight text-white">
+                  <span className="text-underline-blue">Skip</span> the <span className="text-emergency line-through decoration-[4px]">3-hour</span> <br /> waiting room.
+                </h1>
+                <p className="mt-6 max-w-xl text-lg md:text-xl text-text-secondary leading-relaxed">
+                  Book your token before you leave home. Know exactly when to arrive with live queue tracking and AI-powered triage.
+                </p>
+              </div>
 
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-[15px] font-medium text-text-secondary">Your turn:</div>
-              <div className="font-mono text-[20px] font-bold text-primary">~2:35 PM</div>
-            </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/patient/find" className="btn-primary h-[56px] px-8 flex items-center justify-center gap-3 text-base">
+                  Book a Token <ArrowRight className="w-5 h-5" />
+                </Link>
+                <button className="btn-secondary h-[56px] px-8 text-base text-white/80">
+                  Watch demo
+                </button>
+              </div>
 
-            <div className="flex items-center justify-between mt-6">
-              <div className="flex gap-2">
-                {[1,2,3,4].map((i) => (
-                  <div key={i} className={`w-3 h-3 rounded-full ${i === 4 ? 'bg-accent relative' : 'bg-primary-light'}`}>
-                    {i === 4 && <div className="absolute -inset-1 border border-accent rounded-full animate-pulse-ring" />}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {[
+                  { label: 'Partner Clinics', value: '200+' },
+                  { label: 'Paper Replaced', value: '76%' },
+                  { label: 'Avg Booking', value: '2.3m' },
+                  { label: 'Patient Rating', value: '★ 4.8' },
+                ].map((item) => (
+                  <div key={item.label} className="glass-card p-5 rounded-[24px] border border-white/10">
+                    <p className="text-sm text-text-secondary uppercase tracking-[0.25em] mb-3">{item.label}</p>
+                    <p className="text-3xl font-bold text-white">{item.value}</p>
                   </div>
                 ))}
               </div>
-              <div className="text-[13px] font-medium text-text-secondary">Pos 4</div>
+            </div>
+
+            <div className="lg:w-5/12 relative">
+              <div className="absolute -top-10 -right-14 h-[320px] w-[320px] rounded-full bg-primary/10 blur-[130px]" />
+              <div className="glass-card relative overflow-hidden rounded-[40px] border border-white/10 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.6)]">
+                <div className="h-[420px] bg-[url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=1200')] bg-cover bg-center brightness-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent" />
+                <div className="relative p-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.32em] text-text-secondary mb-2">Current Status</p>
+                      <p className="text-lg font-semibold text-white">Apollo Clinic, Indiranagar</p>
+                      <p className="text-sm text-text-secondary">Dr. Sanjay Verma • Cardiology</p>
+                    </div>
+                    <div className="badge-pill badge-available">
+                      <span className="h-2.5 w-2.5 rounded-full bg-accent" /> Live
+                    </div>
+                  </div>
+
+                  <div className="bg-bg/70 border border-white/10 rounded-[28px] p-6 mb-6">
+                    <div className="flex items-end justify-between gap-4">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.32em] text-text-secondary mb-2">Your token</p>
+                        <p className="text-[4rem] font-mono font-bold text-white leading-none">#47</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs uppercase tracking-[0.32em] text-text-secondary mb-2">Est. time</p>
+                        <p className="text-2xl font-bold text-primary">~2:35 PM</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between text-sm text-text-secondary">
+                      <span>Queue progress</span>
+                      <span className="text-white font-semibold">4 patients ahead</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <div key={index} className={`h-2.5 rounded-full flex-1 ${index < 4 ? 'bg-primary/30' : 'bg-accent'}`} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 3: STATS BAR */}
-      <section className="bg-surface py-12 px-6 border-y border-white/5">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
-          <div className="flex flex-col px-4 text-center">
-            <div className="font-mono text-[48px] font-bold text-white mb-2 tabular-nums">200+</div>
-            <div className="text-[13px] text-text-secondary uppercase tracking-wider font-bold">Partner Clinics</div>
-          </div>
-          <div className="flex flex-col px-4 text-center">
-            <div className="font-mono text-[48px] font-bold text-white mb-2 tabular-nums">76%</div>
-            <div className="text-[13px] text-text-secondary uppercase tracking-wider font-bold">Paper Replaced</div>
-          </div>
-          <div className="flex flex-col px-4 text-center">
-            <div className="font-mono text-[48px] font-bold text-white mb-2 tabular-nums">2.3m</div>
-            <div className="text-[13px] text-text-secondary uppercase tracking-wider font-bold">Avg Booking</div>
-          </div>
-          <div className="flex flex-col px-4 text-center">
-            <div className="font-mono text-[48px] font-bold text-white mb-2 tabular-nums">★ 4.8</div>
-            <div className="text-[13px] text-text-secondary uppercase tracking-wider font-bold">Patient Rating</div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: HOW IT WORKS */}
-      <section className="py-24 px-6 max-w-[1200px] mx-auto text-center">
-        <h2 className="font-display font-bold text-[36px] text-text-primary mb-16">How It Works</h2>
-        
-        <div className="flex flex-col md:flex-row items-center justify-between relative gap-8">
-          {/* Dashed connecting line */}
-          <div className="hidden md:block absolute top-[40px] left-10 right-10 h-0 border-t-2 border-dashed border-primary-light -z-10" />
-          
-          <div className="flex flex-col items-center bg-bg w-[180px]">
-            <div className="w-20 h-20 rounded-full bg-white border border-border flex items-center justify-center mb-4 text-[32px] shadow-sm">📱</div>
-            <div className="font-medium text-[15px] text-text-primary mb-1">Book token</div>
-            <div className="text-[13px] text-text-secondary">Search & book online</div>
-          </div>
-          
-          <div className="flex flex-col items-center bg-bg w-[180px]">
-            <div className="w-20 h-20 rounded-full bg-white border border-border flex items-center justify-center mb-4 text-[32px] shadow-sm relative">
-              <div className="absolute top-0 right-0 w-3 h-3 bg-accent rounded-full border-2 border-white" />
-              🤖
-            </div>
-            <div className="font-medium text-[15px] text-text-primary mb-1">AI triages</div>
-            <div className="text-[13px] text-text-secondary">Analyzes symptoms</div>
-          </div>
-          
-          <div className="flex flex-col items-center bg-bg w-[180px]">
-            <div className="w-20 h-20 rounded-full bg-white border border-border flex items-center justify-center mb-4 text-[32px] shadow-sm">⏰</div>
-            <div className="font-medium text-[15px] text-text-primary mb-1">Get ETS</div>
-            <div className="text-[13px] text-text-secondary">Know when to arrive</div>
-          </div>
-          
-          <div className="flex flex-col items-center bg-bg w-[180px]">
-            <div className="w-20 h-20 rounded-full bg-white border-2 border-primary flex items-center justify-center mb-4 text-[32px] shadow-sm relative">
-              <div className="absolute inset-0 rounded-full border border-primary animate-pulse-ring" />
-              📡
-            </div>
-            <div className="font-medium text-[15px] text-primary mb-1">Track live</div>
-            <div className="text-[13px] text-text-secondary">Real-time updates</div>
-          </div>
-          
-          <div className="flex flex-col items-center bg-bg w-[180px]">
-            <div className="w-20 h-20 rounded-full bg-accent-light text-accent flex items-center justify-center mb-4 shadow-sm"><Check className="w-8 h-8" /></div>
-            <div className="font-medium text-[15px] text-text-primary mb-1">Done</div>
-            <div className="text-[13px] text-text-secondary">Zero waiting room</div>
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="font-display text-4xl font-bold text-white text-center mb-16">How it works</h2>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+            {[
+              { icon: '📱', title: 'Book token', label: 'Search & book online' },
+              { icon: '🤖', title: 'AI triages', label: 'Analyzes symptoms' },
+              { icon: '⏰', title: 'Get ETS', label: 'Know when to arrive' },
+              { icon: '📡', title: 'Track live', label: 'Real-time updates' },
+              { icon: '✅', title: 'Done', label: 'Zero waiting room' },
+            ].map((step) => (
+              <div key={step.title} className="glass-card rounded-[28px] p-8 text-center">
+                <div className="mx-auto mb-5 h-16 w-16 rounded-full bg-white/10 flex items-center justify-center text-[28px] text-white">{step.icon}</div>
+                <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
+                <p className="text-sm text-text-secondary">{step.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-bg-dark text-white py-16 px-6">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-white/10 pb-12 mb-8">
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <Zap className="w-6 h-6 text-primary fill-current" />
-              <span className="text-xl font-display font-bold">QueueCure</span>
+      <footer className="bg-bg px-6 py-16">
+        <div className="max-w-7xl mx-auto grid gap-12 lg:grid-cols-4 border-t border-white/10 pt-10 text-text-secondary">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 text-white text-xl font-display font-bold">
+              <Zap className="w-6 h-6 text-primary" /> QueueCure
             </div>
-            <p className="text-[#A0AEC0] text-[15px] max-w-sm">Patient-first hospital queue platform for Indian OPDs. Calm confidence in a stressful environment.</p>
+            <p className="max-w-md text-sm text-text-secondary">Patient-first hospital queue platform for Indian OPDs. Calm confidence in a stressful environment.</p>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Product Links</h4>
-            <ul className="space-y-3 text-[14px] text-[#A0AEC0]">
+            <h4 className="text-base font-semibold text-white mb-4">Product</h4>
+            <ul className="space-y-3 text-sm">
               <li><Link to="/patient/find" className="hover:text-white">Find Hospital</Link></li>
               <li><Link to="/login" className="hover:text-white">Sign In</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
-            <ul className="space-y-3 text-[14px] text-[#A0AEC0]">
-              <li>Privacy Policy</li>
-              <li>Terms of Service</li>
+            <h4 className="text-base font-semibold text-white mb-4">Company</h4>
+            <ul className="space-y-3 text-sm text-text-secondary">
+              <li className="hover:text-white cursor-pointer">About</li>
+              <li className="hover:text-white cursor-pointer">Privacy</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-base font-semibold text-white mb-4">Resources</h4>
+            <ul className="space-y-3 text-sm text-text-secondary">
+              <li className="hover:text-white cursor-pointer">Support</li>
+              <li className="hover:text-white cursor-pointer">Terms</li>
             </ul>
           </div>
         </div>
-        <div className="text-center text-[13px] text-[#4A5568]">
-          Built for Wooble Hackathon · Team Omkar, Apurv, Kushal
-        </div>
+        <div className="mt-10 text-center text-sm text-[#94A3B8]">© 2024 QueueCure Technologies Pvt Ltd. All rights reserved.</div>
       </footer>
     </div>
   );
