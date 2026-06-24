@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Filter, Star, Clock, MapPinOff, User } from 'lucide-react';
+import { Search, Filter, Clock, MapPinOff, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { hospitalService } from '../services/api';
 
