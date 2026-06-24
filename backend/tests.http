@@ -1,0 +1,77 @@
+### QueueCure Backend Test Cases (REST Client / VSCode)
+
+@auth_service = http://localhost:3002
+@hospital_service = http://localhost:3001
+@queue_service = http://localhost:3003
+@triage_service = http://localhost:3004
+
+### 1. Auth Service: Login (Patient)
+POST {{auth_service}}/auth/login
+Content-Type: application/json
+
+{
+  "role": "patient",
+  "phone": "+919876543210"
+}
+
+### 2. Hospital Service: Get Hospitals
+GET {{hospital_service}}/hospitals?city=Mumbai&specialty=Cardiology
+Content-Type: application/json
+
+### 3. Triage Service: Symptom Analysis (AI Triage)
+POST {{triage_service}}/triage
+Content-Type: application/json
+
+{
+  "patient_id": "p-1234",
+  "symptoms": "Severe chest pain radiating to left arm, shortness of breath, sweating.",
+  "duration": "30 mins"
+}
+
+### 4. Queue Service: Generate Walk-in Token
+POST {{queue_service}}/tokens
+Content-Type: application/json
+
+{
+  "hospital_id": "hosp-1",
+  "doctor_id": "doc-sharma-1",
+  "patient_name": "Raj Kumar",
+  "source": "walk_in",
+  "priority": "normal"
+}
+
+### 5. Queue Service: Generate Emergency Token (After Triage)
+POST {{queue_service}}/tokens
+Content-Type: application/json
+
+{
+  "hospital_id": "hosp-1",
+  "doctor_id": "doc-sharma-1",
+  "patient_name": "Amit Singh",
+  "source": "online",
+  "priority": "urgent"
+}
+
+### 6. Queue Service: Call Next Patient (Receptionist)
+POST {{queue_service}}/queue/call-next
+Content-Type: application/json
+
+{
+  "doctor_id": "doc-sharma-1",
+  "receptionist_id": "rec-01"
+}
+
+### 7. Queue Service: SSE Stream Subscription (Open in browser or curl)
+# curl -N "http://localhost:3003/queue/stream?doctorId=doc-sharma-1"
+GET {{queue_service}}/queue/stream?doctorId=doc-sharma-1
+Accept: text/event-stream
+
+### 8. Queue Service: AI Hospital Switch Suggestion
+POST {{queue_service}}/tokens/switch-suggest
+Content-Type: application/json
+
+{
+  "token_id": "token-1234",
+  "current_wait_time": 120,
+  "max_radius_km": 5
+}

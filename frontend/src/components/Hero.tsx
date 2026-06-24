@@ -1,7 +1,7 @@
-
 import Navbar from './Navbar';
 import DashboardMockup from './DashboardMockup';
-import { ArrowUp, Activity } from 'lucide-react';
+import { Search, HeartPulse } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -30,22 +30,22 @@ export default function Hero() {
               type="submit" 
               className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-900 text-white hover:scale-105 active:scale-95 transition-transform shrink-0"
             >
-              <ArrowUp className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+              <Search className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
             </button>
           </div>
         </form>
 
         <p className="animate-fade-up [animation-delay:340ms] mt-4 sm:mt-5 text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed max-w-md">
-          Track your OPD position in real-time <br/>— and never waste hours in the <Activity className="inline w-4 h-4 -mt-1 text-[#aa3bff]" /> waiting room again.
+          Track your OPD position in real-time <br/>— and never waste hours in the <HeartPulse className="inline w-4 h-4 -mt-1 text-[#aa3bff]" /> waiting room again.
         </p>
 
         <div className="animate-fade-up [animation-delay:460ms] mt-4 sm:mt-5 flex flex-wrap items-center justify-center gap-3">
-          <button className="bg-gray-900 text-white text-sm font-medium px-6 py-2.5 rounded-full hover:bg-gray-800 hover:shadow-lg transition-all">
+          <Link to="/login" className="bg-gray-900 text-white text-sm font-medium px-6 py-2.5 rounded-full hover:bg-gray-800 hover:shadow-lg transition-all">
             Book Walk-in
-          </button>
-          <button className="text-gray-700 text-sm font-medium px-6 py-2.5 rounded-full ring-1 ring-gray-300 hover:bg-gray-100 transition-colors">
+          </Link>
+          <Link to="/login" className="text-gray-700 text-sm font-medium px-6 py-2.5 rounded-full ring-1 ring-gray-300 hover:bg-gray-100 transition-colors flex items-center justify-center">
             Hospital Login
-          </button>
+          </Link>
         </div>
       </div>
 

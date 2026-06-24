@@ -1,7 +1,7 @@
-const AUTH_URL = import.meta.env.VITE_AUTH_SERVICE_URL || '/auth';
-const HOSPITAL_URL = import.meta.env.VITE_HOSPITAL_SERVICE_URL || '/hospital';
-const QUEUE_URL = import.meta.env.VITE_QUEUE_SERVICE_URL || '/queue';
-const TRIAGE_URL = import.meta.env.VITE_TRIAGE_SERVICE_URL || '/triage';
+const AUTH_URL = import.meta.env.VITE_AUTH_SERVICE_URL || '';
+const HOSPITAL_URL = import.meta.env.VITE_HOSPITAL_SERVICE_URL || '';
+const QUEUE_URL = import.meta.env.VITE_QUEUE_SERVICE_URL || '';
+const TRIAGE_URL = import.meta.env.VITE_TRIAGE_SERVICE_URL || '';
 
 export const authService = {
   login: async (data: any) => {

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { PanelLeft, ChevronLeft, ChevronRight, Monitor, RotateCw, Share, Plus, Copy, Grid, Compass, Layers, ListTodo } from 'lucide-react';
+import { PanelLeft, ChevronLeft, ChevronRight, Monitor, RotateCw, Share, Plus, Copy, Grid, Activity, Users, Calendar } from 'lucide-react';
 import Logo from './Logo';
 
 export default function DashboardMockup() {
@@ -82,13 +82,13 @@ export default function DashboardMockup() {
 
             <nav className="flex flex-col gap-3">
               <a href="#" className="flex items-center gap-2 text-[10px] text-white/60 hover:text-white/80 transition-colors">
-                <Compass className="w-3.5 h-3.5" /> Live Queues
+                <Activity className="w-3.5 h-3.5" /> Live Queues
               </a>
               <a href="#" className="flex items-center gap-2 text-[10px] text-white/60 hover:text-white/80 transition-colors">
-                <Layers className="w-3.5 h-3.5" /> Doctor Roster
+                <Users className="w-3.5 h-3.5" /> Doctor Roster
               </a>
               <a href="#" className="flex items-center gap-2 text-[10px] text-white/60 hover:text-white/80 transition-colors">
-                <ListTodo className="w-3.5 h-3.5" /> Appointments
+                <Calendar className="w-3.5 h-3.5" /> Appointments
               </a>
             </nav>
 
