@@ -18,17 +18,17 @@ export default {
         },
         urgent: '#FF6B35',
         emergency: '#E53E3E',
-        surface: '#FFFFFF',
+        surface: '#1A1F2E',
         bg: {
-          DEFAULT: '#F4F7FF',
-          dark: '#0D1117',
+          DEFAULT: '#0D1117',
+          light: '#1A1F2E',
         },
         text: {
-          primary: '#0D1117',
-          secondary: '#4A5568',
+          primary: '#F8FAFC',
+          secondary: '#64748B',
           muted: '#A0AEC0',
         },
-        border: '#E2E8F0',
+        border: '#2D3748',
       },
       fontFamily: {
         display: ['"Plus Jakarta Sans"', 'sans-serif'],

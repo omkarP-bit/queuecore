@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@700&family=Plus+Jakarta+Sans:wght@700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +10,7 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    @apply font-display tracking-[-0.02em];
   }
 }
 
@@ -39,10 +41,10 @@
   }
   
   .card {
-    @apply bg-white border border-border rounded-[12px] p-5 shadow-card transition-all;
+    @apply bg-surface border border-border rounded-[24px] p-6 transition-all duration-300 shadow-none;
   }
   .card-hover:hover {
-    @apply -translate-y-[2px] shadow-float;
+    @apply -translate-y-[2px] border-primary/30 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5),_0_0_20px_rgba(26,107,255,0.2)];
   }
   
   .badge-routine {

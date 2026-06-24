@@ -47,7 +47,7 @@ export default function HospitalDiscovery() {
       <div className="max-w-[1200px] mx-auto flex flex-col gap-6">
         {/* SEARCH BAR & PROFILE */}
         <div className="flex gap-4">
-          <div className="w-full bg-white rounded-[12px] shadow-card flex items-center px-4 h-[64px] border border-border">
+          <div className="w-full bg-surface rounded-[24px] shadow-none flex items-center px-4 h-[64px] border border-border focus-within:border-primary/50 transition-colors duration-300">
             <Search className="w-6 h-6 text-text-muted mr-3" />
             <input 
               type="text" 
@@ -57,9 +57,9 @@ export default function HospitalDiscovery() {
           </div>
           <button 
             onClick={() => navigate('/profile')}
-            className="bg-white rounded-[12px] shadow-card flex items-center justify-center w-[64px] h-[64px] border border-border hover:bg-gray-50 transition-colors"
+            className="bg-surface rounded-[24px] flex items-center justify-center w-[64px] h-[64px] border border-border hover:border-primary/50 transition-all duration-300 group"
           >
-            <User className="w-6 h-6 text-text-primary" />
+            <User className="w-6 h-6 text-text-secondary group-hover:text-primary transition-colors" />
           </button>
         </div>
 
@@ -78,7 +78,7 @@ export default function HospitalDiscovery() {
               )}
               <div>
                 <label className="text-[13px] font-medium text-text-secondary mb-2 block">Specialty</label>
-                <select className="input-field bg-white">
+                <select className="input-field bg-bg">
                   <option>Any Specialty</option>
                   <option>Cardiology</option>
                   <option>Orthopedics</option>
@@ -86,20 +86,20 @@ export default function HospitalDiscovery() {
               </div>
               <div>
                 <label className="text-[13px] font-medium text-text-secondary mb-2 block">Rating</label>
-                <select className="input-field bg-white">
+                <select className="input-field bg-bg">
                   <option>★★★★☆ 4.0+</option>
                   <option>★★★★★ 4.5+</option>
                 </select>
               </div>
               <div>
                 <label className="text-[13px] font-medium text-text-secondary mb-2 block">Distance</label>
-                <select className="input-field bg-white">
+                <select className="input-field bg-bg">
                   <option>0 - 10 km</option>
                   <option>0 - 5 km</option>
                 </select>
               </div>
               <div className="flex items-center gap-2">
-                <input type="checkbox" className="w-5 h-5 rounded-[4px] border-border text-primary focus:ring-primary" />
+                <input type="checkbox" className="w-5 h-5 rounded-[4px] border-border bg-surface text-primary focus:ring-primary focus:ring-offset-bg" />
                 <label className="text-[15px] text-text-primary">Available now only</label>
               </div>
             </div>
@@ -133,46 +133,46 @@ export default function HospitalDiscovery() {
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 {hospitals.map(h => (
-                  <div key={h.id} className="card card-hover flex flex-col relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent" />
+                  <div key={h.id} className="card card-hover flex flex-col relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     
-                    <div className="flex justify-between items-start mb-3">
-                      <h3 className="font-display font-semibold text-[17px] text-text-primary leading-tight w-[80%]">{h.name}</h3>
-                      <div className="flex items-center gap-1 text-[13px] font-bold text-text-primary">
-                        <Star className="w-3.5 h-3.5 fill-warning text-warning" /> {4.6}
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex-1">
+                        <h3 className="font-display font-bold text-lg text-text-primary mb-1">{h.name}</h3>
+                        <p className="text-xs text-text-secondary">{h.city || 'Bangalore, Karnataka'}</p>
+                      </div>
+                      <div className="flex items-center gap-1.5 bg-accent/20 px-2.5 py-1 rounded-full shrink-0 ml-2">
+                        <div className="w-2 h-2 rounded-full bg-accent animate-ping absolute"></div>
+                        <div className="w-2 h-2 rounded-full bg-accent relative"></div>
+                        <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Available</span>
                       </div>
                     </div>
                     
-                    <hr className="border-border my-3" />
+                    <hr className="border-border my-4" />
                     
                     <div className="text-[15px] font-medium text-text-primary mb-1">
-                      {h.doctors?.[0]?.name || 'Dr. Availability'} · {h.specialty_tags?.[0] || 'General'}
+                      {h.doctors?.[0]?.name || 'Dr. Availability'} · <span className="text-primary">{h.specialty_tags?.[0] || 'General'}</span>
                     </div>
                     <div className="text-[13px] text-text-secondary flex items-center gap-2 mb-1">
                       <Clock className="w-3.5 h-3.5" /> ~15 min avg consult
                     </div>
-                    <div className="text-[13px] text-text-secondary mb-4">💰 ₹300-500</div>
-                    
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-1.5">
-                        <div className="pulse-ring-container w-2.5 h-2.5">
-                          <div className="pulse-ring-element bg-accent" />
-                          <div className="w-2.5 h-2.5 rounded-full bg-accent relative z-10" />
-                        </div>
-                        <span className="text-[13px] font-medium text-text-primary">Available</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-[13px] text-text-secondary">
-                        👥 <span className="font-mono font-bold">2</span> waiting
-                      </div>
+                    <div className="text-[13px] text-text-secondary mb-6 flex items-center gap-2">
+                      <span className="font-mono bg-surface border border-border px-1.5 py-0.5 rounded">₹300-500</span> Consult Fee
                     </div>
                     
-                    <div className="bg-primary-light text-primary text-[13px] font-medium px-3 py-2 rounded-[8px] mb-4 text-center">
-                      ETS: ~30 min from now
+                    <div className="flex items-center justify-between mb-4 bg-bg rounded-[12px] p-3 border border-border">
+                      <div className="flex items-center gap-2 text-[13px] text-text-secondary">
+                        <span className="font-mono font-bold text-text-primary text-lg">2</span> waiting in queue
+                      </div>
+                      <div className="text-right">
+                        <div className="text-[11px] text-text-muted uppercase font-bold tracking-wider mb-0.5">EST. TIME</div>
+                        <div className="text-primary font-mono font-bold text-[13px]">~30 min</div>
+                      </div>
                     </div>
                     
                     <button 
                       onClick={() => navigate(`/patient/book/${h.doctors?.[0]?.id || h.id}`)}
-                      className="btn-primary w-full mt-auto"
+                      className="btn-primary w-full mt-auto bg-surface border-[1.5px] border-primary text-primary hover:bg-primary hover:text-white"
                     >
                       Book Token →
                     </button>
