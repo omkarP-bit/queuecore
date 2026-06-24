@@ -1,26 +1,12 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check, Zap } from 'lucide-react';
 
+import Navbar from '../components/Navbar';
+
 export default function Landing() {
   return (
     <div className="font-sans text-text-primary bg-bg w-full overflow-x-hidden">
-      {/* SECTION 1: NAVIGATION BAR */}
-      <nav className="sticky top-0 z-50 bg-bg/90 backdrop-blur-md w-full border-b border-border px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Zap className="w-6 h-6 text-primary fill-current" />
-          <span className="text-xl font-display font-bold text-text-primary">QueueCure</span>
-        </div>
-        <div className="hidden md:flex items-center gap-8">
-          <Link to="/patient/find" className="text-text-secondary font-medium text-[15px] hover:text-primary transition-colors">Find Hospital</Link>
-          <a href="#" className="text-text-secondary font-medium text-[15px] hover:text-primary transition-colors">How it works</a>
-          <Link to="/login" className="text-text-secondary font-medium text-[15px] hover:text-primary transition-colors">Sign In</Link>
-        </div>
-        <div>
-          <Link to="/patient/find" className="btn-primary flex items-center gap-2 h-[42px] px-5 text-[14px]">
-            Book Now <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* SECTION 2: HERO */}
       <section className="pt-24 pb-16 px-6 max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center gap-16 relative">
@@ -30,13 +16,12 @@ export default function Landing() {
             Trusted by 200+ clinics in Pune & Mumbai
           </div>
           <h1 className="text-[56px] md:text-[72px] font-display font-bold text-text-primary leading-[1.05] mb-8">
-            <span className="relative inline-block">
+            <span className="relative inline-block text-white">
               <span className="relative z-10">Skip</span>
-              <div className="absolute bottom-1 left-0 w-full h-3 bg-primary/20 -z-10" />
+              <div className="absolute bottom-2 left-0 w-full h-3 bg-primary -z-10" />
             </span> the <br/>
-            <span className="relative inline-block text-text-muted">
+            <span className="relative inline-block text-text-muted line-through decoration-emergency decoration-[4px]">
               3-hour
-              <div className="absolute top-1/2 left-0 w-full h-[3px] bg-emergency -translate-y-1/2 -rotate-2" />
             </span> <br/>
             waiting room.
           </h1>
@@ -59,18 +44,18 @@ export default function Landing() {
           {/* Decorative blurred blob */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[80px] -z-10" />
           
-          <div className="card shadow-modal p-8 border-t-4 border-t-primary animate-fade-up">
+          <div className="card shadow-modal p-8 border-t-4 border-t-primary animate-fade-up bg-surface/75 backdrop-blur-[20px] border border-white/10">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-primary-light flex items-center justify-center text-[24px]">🏥</div>
+              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-[24px]">🏥</div>
               <div>
-                <div className="font-display font-bold text-[17px] text-text-primary">City Hospital</div>
+                <div className="font-display font-bold text-[17px] text-white">City Hospital</div>
                 <div className="text-[14px] text-text-secondary">Dr. Priya Sharma · Cardiology</div>
               </div>
             </div>
 
-            <div className="bg-bg-dark rounded-[16px] p-6 text-center shadow-card relative overflow-hidden mb-6">
-              <div className="text-[11px] font-medium text-[#A0AEC0] tracking-wider mb-2">NOW SERVING</div>
-              <div className="font-mono text-[80px] font-bold text-white leading-none"># 47</div>
+            <div className="bg-bg rounded-[16px] p-6 text-center shadow-none border border-border relative overflow-hidden mb-6">
+              <div className="text-[11px] font-medium text-text-secondary tracking-wider mb-2">NOW SERVING</div>
+              <div className="font-mono text-[80px] font-bold text-white leading-none tabular-nums">#47</div>
             </div>
 
             <div className="flex items-center justify-between mb-4">
@@ -93,23 +78,23 @@ export default function Landing() {
       </section>
 
       {/* SECTION 3: STATS BAR */}
-      <section className="bg-bg-dark py-12 px-6">
+      <section className="bg-surface py-12 px-6 border-y border-white/5">
         <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
           <div className="flex flex-col px-4 text-center">
-            <div className="font-mono text-[48px] font-bold text-white mb-2">200+</div>
-            <div className="text-[13px] text-text-muted">Clinics onboarded</div>
+            <div className="font-mono text-[48px] font-bold text-white mb-2 tabular-nums">200+</div>
+            <div className="text-[13px] text-text-secondary uppercase tracking-wider font-bold">Partner Clinics</div>
           </div>
           <div className="flex flex-col px-4 text-center">
-            <div className="font-mono text-[48px] font-bold text-white mb-2">76%</div>
-            <div className="text-[13px] text-text-muted">Paper clinics replaced</div>
+            <div className="font-mono text-[48px] font-bold text-white mb-2 tabular-nums">76%</div>
+            <div className="text-[13px] text-text-secondary uppercase tracking-wider font-bold">Paper Replaced</div>
           </div>
           <div className="flex flex-col px-4 text-center">
-            <div className="font-mono text-[48px] font-bold text-white mb-2">2.3m</div>
-            <div className="text-[13px] text-text-muted">Avg token booking</div>
+            <div className="font-mono text-[48px] font-bold text-white mb-2 tabular-nums">2.3m</div>
+            <div className="text-[13px] text-text-secondary uppercase tracking-wider font-bold">Avg Booking</div>
           </div>
           <div className="flex flex-col px-4 text-center">
-            <div className="font-mono text-[48px] font-bold text-white mb-2">★ 4.8</div>
-            <div className="text-[13px] text-text-muted">Patient rating</div>
+            <div className="font-mono text-[48px] font-bold text-white mb-2 tabular-nums">★ 4.8</div>
+            <div className="text-[13px] text-text-secondary uppercase tracking-wider font-bold">Patient Rating</div>
           </div>
         </div>
       </section>
