@@ -126,11 +126,11 @@ app.post('/tokens', async (req, res) => {
     // 2. Get doctor info for ETS (TC-015: Availability check)
     const { data: doctor } = await supabase
       .from('doctors')
-      .select('avg_consult_minutes, lag_rolling, is_available')
+      .select('avg_consult_minutes, lag_rolling, availability_status')
       .eq('id', doctorId)
       .single();
 
-    if (!doctor?.is_available) {
+    if (doctor?.availability_status !== 'available') {
       return res.status(400).json({ error: "Doctor is currently unavailable today." });
     }
 

@@ -8,6 +8,7 @@ import SymptomTriage from './pages/SymptomTriage';
 import TokenConfirmation from './pages/TokenConfirmation';
 import HospitalSwitch from './pages/HospitalSwitch';
 import UserProfile from './pages/UserProfile';
+import Queue from './pages/Queue';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Navigate to="/receptionist" replace />} />
-          <Route path="/queue" element={<Navigate to="/patient/find" replace />} />
+          <Route path="/queue" element={<Queue />} />
           
           <Route path="/receptionist" element={<ReceptionistDashboard />} />
           <Route path="/patient/find" element={<HospitalDiscovery />} />

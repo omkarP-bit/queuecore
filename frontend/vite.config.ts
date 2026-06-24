@@ -14,7 +14,11 @@ export default defineConfig({
         target: 'http://localhost:3001',
         changeOrigin: true,
       },
-      '/queue': {
+      '/queue/call-next': {
+        target: 'http://localhost:3003',
+        changeOrigin: true,
+      },
+      '/queue/stream': {
         target: 'http://localhost:3003',
         changeOrigin: true,
       },
