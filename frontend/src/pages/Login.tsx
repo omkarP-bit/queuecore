@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/api';
+import { supabase } from '../lib/supabase';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -132,17 +133,17 @@ export default function Login() {
                 onClick={async () => {
                   try {
                     setLoading(true);
-                    // Mocking Google OAuth callback which would give us email and name
-                    const res = await authService.login({ role: 'patient', email: 'demo.user@gmail.com', name: 'Demo Patient' });
-                    if (res.token) {
-                      localStorage.setItem('token', res.token);
-                      localStorage.setItem('user', JSON.stringify(res.user));
-                      navigate('/patient/find');
-                    } else {
-                      setError('Google Auth failed');
+                    const { error } = await supabase.auth.signInWithOAuth({
+                      provider: 'google',
+                      options: {
+                        redirectTo: `${window.location.origin}/queue`,
+                      },
+                    });
+                    if (error) {
+                      setError(error.message);
                     }
-                  } catch (e) {
-                    setError('An error occurred during Google Auth');
+                  } catch (e: any) {
+                    setError(e.message || 'An error occurred during Google Auth');
                   } finally {
                     setLoading(false);
                   }

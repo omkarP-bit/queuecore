@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Filter, Star, Clock, MapPinOff } from 'lucide-react';
+import { Search, Filter, Star, Clock, MapPinOff, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { hospitalService } from '../services/api';
 
@@ -45,14 +45,22 @@ export default function HospitalDiscovery() {
   return (
     <div className="min-h-screen bg-bg p-4 md:p-8 font-sans">
       <div className="max-w-[1200px] mx-auto flex flex-col gap-6">
-        {/* SEARCH BAR */}
-        <div className="w-full bg-white rounded-[12px] shadow-card flex items-center px-4 h-[64px] border border-border">
-          <Search className="w-6 h-6 text-text-muted mr-3" />
-          <input 
-            type="text" 
-            placeholder="Search by hospital, doctor, or specialty..." 
-            className="flex-1 bg-transparent border-none outline-none text-[16px] text-text-primary placeholder:text-text-muted"
-          />
+        {/* SEARCH BAR & PROFILE */}
+        <div className="flex gap-4">
+          <div className="w-full bg-white rounded-[12px] shadow-card flex items-center px-4 h-[64px] border border-border">
+            <Search className="w-6 h-6 text-text-muted mr-3" />
+            <input 
+              type="text" 
+              placeholder="Search by hospital, doctor, or specialty..." 
+              className="flex-1 bg-transparent border-none outline-none text-[16px] text-text-primary placeholder:text-text-muted"
+            />
+          </div>
+          <button 
+            onClick={() => navigate('/profile')}
+            className="bg-white rounded-[12px] shadow-card flex items-center justify-center w-[64px] h-[64px] border border-border hover:bg-gray-50 transition-colors"
+          >
+            <User className="w-6 h-6 text-text-primary" />
+          </button>
         </div>
 
         <div className="flex flex-col md:flex-row gap-8">
