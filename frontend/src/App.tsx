@@ -9,6 +9,7 @@ import TokenConfirmation from './pages/TokenConfirmation';
 import HospitalSwitch from './pages/HospitalSwitch';
 import UserProfile from './pages/UserProfile';
 import Queue from './pages/Queue';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -22,11 +23,13 @@ function App() {
           
           <Route path="/receptionist" element={<ReceptionistDashboard />} />
           <Route path="/patient/find" element={<HospitalDiscovery />} />
-          <Route path="/patient/book/:doctorId" element={<SymptomTriage />} />
-          <Route path="/patient/token/:tokenId" element={<TokenConfirmation />} />
-          <Route path="/patient/wait/:tokenId" element={<PatientWait />} />
-          <Route path="/patient/switch" element={<HospitalSwitch />} />
-          <Route path="/profile" element={<UserProfile />} />
+
+          {/* Protected routes — require login */}
+          <Route path="/patient/book/:doctorId" element={<ProtectedRoute><SymptomTriage /></ProtectedRoute>} />
+          <Route path="/patient/token/:tokenId" element={<ProtectedRoute><TokenConfirmation /></ProtectedRoute>} />
+          <Route path="/patient/wait/:tokenId" element={<ProtectedRoute><PatientWait /></ProtectedRoute>} />
+          <Route path="/patient/switch" element={<ProtectedRoute><HospitalSwitch /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
           
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

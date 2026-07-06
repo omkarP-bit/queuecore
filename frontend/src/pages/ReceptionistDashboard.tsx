@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Plus, ChevronDown, Radio } from 'lucide-react';
+import { RollingCounter } from '../components/RollingCounter';
 
 export default function ReceptionistDashboard() {
   const [tokens, setTokens] = useState<any[]>([
@@ -7,6 +8,7 @@ export default function ReceptionistDashboard() {
     { id: '2', token_number: 43, patient_name: 'P. Gupta', priority: 'urgent', source: 'walk-in', ets: '2:30 PM' },
     { id: '3', token_number: 44, patient_name: 'A. Mehta', priority: 'routine', source: 'online', ets: '3:00 PM' },
   ]);
+  const [stats] = useState({ tokensToday: 24, avgConsult: 11, lagToday: 3 });
   const [loadingCall, setLoadingCall] = useState(false);
 
   const handleCallNext = async () => {
@@ -63,15 +65,22 @@ export default function ReceptionistDashboard() {
           <div className="grid gap-6 md:grid-cols-3">
             <div className="rounded-[28px] bg-surface/90 border border-white/10 p-6">
               <p className="text-sm text-text-secondary uppercase tracking-[0.24em] mb-3">Tokens today</p>
-              <p className="text-4xl font-semibold text-white">24</p>
+              <RollingCounter value={stats.tokensToday} fontSize={36} fontWeight={600} textColor="#fff" gap={2} />
             </div>
             <div className="rounded-[28px] bg-surface/90 border border-white/10 p-6">
               <p className="text-sm text-text-secondary uppercase tracking-[0.24em] mb-3">Avg consult</p>
-              <p className="text-4xl font-semibold text-white">11m</p>
+              <div className="flex items-baseline gap-1">
+                <RollingCounter value={stats.avgConsult} fontSize={36} fontWeight={600} textColor="#fff" gap={2} />
+                <span className="text-4xl font-semibold text-white">m</span>
+              </div>
             </div>
             <div className="rounded-[28px] bg-surface/90 border border-white/10 p-6">
               <p className="text-sm text-text-secondary uppercase tracking-[0.24em] mb-3">Lag today</p>
-              <p className="text-4xl font-semibold text-urgent">+3 min</p>
+              <div className="flex items-baseline gap-1">
+                <span className="text-4xl font-semibold text-urgent">+</span>
+                <RollingCounter value={stats.lagToday} fontSize={36} fontWeight={600} textColor="#FF6B35" gap={2} />
+                <span className="text-4xl font-semibold text-urgent">min</span>
+              </div>
             </div>
           </div>
 

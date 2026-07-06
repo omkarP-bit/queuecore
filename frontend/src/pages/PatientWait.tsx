@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { queueService } from '../services/api';
 import { Bell, ArrowRight } from 'lucide-react';
+import { RollingCounter } from '../components/RollingCounter';
 
 export default function PatientWait() {
   const { tokenId } = useParams();
@@ -59,7 +60,18 @@ export default function PatientWait() {
 
         <div className="rounded-[32px] border border-white/10 bg-bg-dark p-8 text-center shadow-card overflow-hidden">
           <div className="text-[11px] uppercase tracking-[0.28em] text-text-secondary mb-3">Now serving</div>
-          <div className="font-mono text-[84px] font-bold text-white leading-none"># {activeToken.token_number}</div>
+          <div className="flex items-baseline justify-center gap-2">
+            <span className="font-mono text-[84px] font-bold text-text-secondary/30 leading-none">#</span>
+            <RollingCounter
+              value={activeToken.token_number}
+              fontSize={84}
+              fontWeight={700}
+              textColor="#fff"
+              gap={4}
+              borderRadius={0}
+              horizontalPadding={0}
+            />
+          </div>
         </div>
 
         <div className="rounded-[32px] border border-white/10 bg-surface/90 p-6 shadow-card">
@@ -82,7 +94,19 @@ export default function PatientWait() {
             })}
           </div>
           <p className="mt-4 text-sm text-text-secondary text-center">
-            {isTurn ? 'It is your turn now!' : `${Math.max(0, diff)} patients ahead of you`}
+            {isTurn ? 'It is your turn now!' : (
+              <>
+                <RollingCounter
+                  value={Math.max(0, diff)}
+                  fontSize={18}
+                  fontWeight={600}
+                  textColor="#F8FAFC"
+                  gap={1}
+                  borderRadius={0}
+                  horizontalPadding={0}
+                /> patients ahead of you
+              </>
+            )}
           </p>
         </div>
 
@@ -92,7 +116,19 @@ export default function PatientWait() {
             <div className="font-mono text-[56px] font-bold text-white mb-2">
               {new Date(token.ets).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
-            <p className="text-sm text-text-secondary">About {Math.max(0, Math.round((new Date(token.ets).getTime() - Date.now()) / 60000))} minutes from now</p>
+            <div className="flex items-center justify-center gap-1">
+              <span className="text-sm text-text-secondary">About</span>
+              <RollingCounter
+                value={Math.max(0, Math.round((new Date(token.ets).getTime() - Date.now()) / 60000))}
+                fontSize={18}
+                fontWeight={600}
+                textColor="#F8FAFC"
+                gap={1}
+                borderRadius={0}
+                horizontalPadding={0}
+              />
+              <span className="text-sm text-text-secondary">minutes from now</span>
+            </div>
           </div>
         </div>
 

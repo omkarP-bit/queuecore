@@ -1,96 +1,124 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import PartnerTicker from '../components/PartnerTicker';
+import TestimonialsMarquee from '../components/TestimonialsMarquee';
+import { RollingCounter } from '../components/RollingCounter';
+
+const stats = {
+  clinics: 247,
+  paperReplaced: 76,
+  avgBooking: 2.3,
+  rating: 4.8,
+};
+
+const features = [
+  {
+    index: '01',
+    title: 'Real-time ETS',
+    desc: 'Know exactly when your turn arrives, down to the minute. No more guessing or waiting.',
+  },
+  {
+    index: '02',
+    title: 'Live Queue Map',
+    desc: 'Track 200+ clinics across Pune and Mumbai with live queue depth and wait times.',
+  },
+  {
+    index: '03',
+    title: 'AI Symptom Triage',
+    desc: 'Classifies your symptoms and assigns priority instantly so urgent cases get seen first.',
+  },
+];
+
+const comparisons = [
+  { label: 'Walk-in waits', before: '2-4 hours', after: '<15 min avg' },
+  { label: 'Paper forms', before: '15 min fill', after: '30 sec digital' },
+  { label: 'Reception calls', before: '30+ daily', after: 'Zero inbound' },
+  { label: 'No-show rate', before: '22%', after: '<3%' },
+  { label: 'Clinic capacity', before: '40/day', after: '70+/day' },
+];
 
 export default function Landing() {
+  const [hoveredComparison, setHoveredComparison] = useState<number | null>(null);
+
   return (
     <div className="font-sans text-text-primary bg-bg min-h-screen overflow-x-hidden">
       <Navbar />
 
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-[420px] bg-gradient-to-b from-primary/15 to-transparent pointer-events-none" />
+      {/* ─── HERO ─── */}
+      <section className="border-b border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-12 gap-4 sm:gap-8">
+            {/* Left label */}
+            <div className="hidden sm:block col-span-2 border-r border-white/5 py-12 sm:py-20 lg:py-28 px-6">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted sticky top-32">
+                Manifesto
+              </p>
+            </div>
 
-        <div className="max-w-7xl mx-auto px-6 pt-20 pb-24 lg:pb-32">
-          <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-            <div className="lg:w-6/12 space-y-8">
-              <div className="inline-flex items-center gap-3 rounded-full bg-primary/10 px-4 py-2 text-xs uppercase tracking-[0.28em] text-primary font-semibold">
+            {/* Content */}
+            <div className="col-span-12 sm:col-span-10 px-6 py-12 sm:py-20 lg:py-28">
+              <div className="inline-flex items-center gap-3 rounded-full bg-primary/10 px-4 py-2 text-xs uppercase tracking-[0.28em] text-primary font-semibold mb-8 sm:mb-12">
                 <span className="inline-flex h-2 w-2 rounded-full bg-primary animate-pulse" />
                 Live in Bangalore & Delhi
               </div>
 
-              <div>
-                <h1 className="text-5xl md:text-6xl xl:text-7xl font-display font-bold tracking-[-0.04em] leading-tight text-white">
-                  <span className="text-underline-blue">Skip</span> the <span className="text-emergency line-through decoration-[4px]">3-hour</span> <br /> waiting room.
-                </h1>
-                <p className="mt-6 max-w-xl text-lg md:text-xl text-text-secondary leading-relaxed">
+              <h1 className="text-6xl sm:text-8xl lg:text-9xl xl:text-[10rem] font-display font-black leading-[0.82] tracking-[-0.05em] text-white mb-8">
+                Skip the<br />
+                <span className="text-primary">waiting</span> room.
+              </h1>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 max-w-2xl mb-10 sm:mb-14">
+                <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-md">
                   Book your token before you leave home. Know exactly when to arrive with live queue tracking and AI-powered triage.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/patient/find" className="btn-primary h-[56px] px-8 flex items-center justify-center gap-3 text-base">
-                  Book a Token <ArrowRight className="w-5 h-5" />
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+                <Link
+                  to="/patient/find"
+                  className="inline-flex items-center gap-3 bg-primary text-white font-semibold text-sm sm:text-base uppercase tracking-wider px-8 sm:px-10 py-4 sm:py-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(26,107,255,0.4)]"
+                  style={{ borderRadius: 0 }}
+                >
+                  Book a token <ArrowRight className="w-5 h-5" />
                 </Link>
-                <button className="btn-secondary h-[56px] px-8 text-base text-white/80">
-                  Watch demo
-                </button>
+                <Link
+                  to="/patient/find"
+                  className="inline-flex items-center text-sm sm:text-base text-text-secondary hover:text-white font-medium underline underline-offset-4 transition-colors"
+                >
+                  How it works
+                </Link>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                {[
-                  { label: 'Partner Clinics', value: '200+' },
-                  { label: 'Paper Replaced', value: '76%' },
-                  { label: 'Avg Booking', value: '2.3m' },
-                  { label: 'Patient Rating', value: '★ 4.8' },
-                ].map((item) => (
-                  <div key={item.label} className="glass-card p-5 rounded-[24px] border border-white/10">
-                    <p className="text-sm text-text-secondary uppercase tracking-[0.25em] mb-3">{item.label}</p>
-                    <p className="text-3xl font-bold text-white">{item.value}</p>
+              {/* Stats row */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/5 mt-14 sm:mt-20">
+                <div className="bg-bg p-5 sm:p-7">
+                  <p className="text-xs uppercase tracking-[0.2em] text-text-muted mb-2 sm:mb-3 font-bold">Clinics</p>
+                  <div className="flex items-baseline">
+                    <RollingCounter value={stats.clinics} fontSize={32} fontWeight={700} textColor="#fff" gap={2} borderRadius={0} horizontalPadding={0} />
+                    <span className="text-2xl sm:text-3xl font-bold text-text-muted ml-1">+</span>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="lg:w-5/12 relative">
-              <div className="absolute -top-10 -right-14 h-[320px] w-[320px] rounded-full bg-primary/10 blur-[130px]" />
-              <div className="glass-card relative overflow-hidden rounded-[40px] border border-white/10 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.6)]">
-                <div className="h-[420px] bg-[url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=1200')] bg-cover bg-center brightness-90" />
-                <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent" />
-                <div className="relative p-8">
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.32em] text-text-secondary mb-2">Current Status</p>
-                      <p className="text-lg font-semibold text-white">Apollo Clinic, Indiranagar</p>
-                      <p className="text-sm text-text-secondary">Dr. Sanjay Verma • Cardiology</p>
-                    </div>
-                    <div className="badge-pill badge-available">
-                      <span className="h-2.5 w-2.5 rounded-full bg-accent" /> Live
-                    </div>
+                </div>
+                <div className="bg-bg p-5 sm:p-7">
+                  <p className="text-xs uppercase tracking-[0.2em] text-text-muted mb-2 sm:mb-3 font-bold">Paper Saved</p>
+                  <div className="flex items-baseline">
+                    <RollingCounter value={stats.paperReplaced} fontSize={32} fontWeight={700} textColor="#fff" gap={2} borderRadius={0} horizontalPadding={0} />
+                    <span className="text-2xl sm:text-3xl font-bold text-text-muted ml-1">%</span>
                   </div>
-
-                  <div className="bg-bg/70 border border-white/10 rounded-[28px] p-6 mb-6">
-                    <div className="flex items-end justify-between gap-4">
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.32em] text-text-secondary mb-2">Your token</p>
-                        <p className="text-[4rem] font-mono font-bold text-white leading-none">#47</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-xs uppercase tracking-[0.32em] text-text-secondary mb-2">Est. time</p>
-                        <p className="text-2xl font-bold text-primary">~2:35 PM</p>
-                      </div>
-                    </div>
+                </div>
+                <div className="bg-bg p-5 sm:p-7">
+                  <p className="text-xs uppercase tracking-[0.2em] text-text-muted mb-2 sm:mb-3 font-bold">Avg Booking</p>
+                  <div className="flex items-baseline">
+                    <RollingCounter value={stats.avgBooking} fontSize={32} fontWeight={700} textColor="#fff" gap={2} borderRadius={0} horizontalPadding={0} places={[10, 1, '.', 0.1]} />
+                    <span className="text-2xl sm:text-3xl font-bold text-text-muted ml-1">m</span>
                   </div>
-
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between text-sm text-text-secondary">
-                      <span>Queue progress</span>
-                      <span className="text-white font-semibold">4 patients ahead</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <div key={index} className={`h-2.5 rounded-full flex-1 ${index < 4 ? 'bg-primary/30' : 'bg-accent'}`} />
-                      ))}
-                    </div>
+                </div>
+                <div className="bg-bg p-5 sm:p-7">
+                  <p className="text-xs uppercase tracking-[0.2em] text-text-muted mb-2 sm:mb-3 font-bold">Rating</p>
+                  <div className="flex items-baseline">
+                    <span className="text-2xl sm:text-3xl font-bold text-primary mr-1">★</span>
+                    <RollingCounter value={stats.rating} fontSize={32} fontWeight={700} textColor="#fff" gap={2} borderRadius={0} horizontalPadding={0} places={[1, '.', 0.1]} />
                   </div>
                 </div>
               </div>
@@ -99,58 +127,199 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="py-24 px-6">
+      {/* ─── PARTNER TICKER ─── */}
+      <section className="border-b border-white/5">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-display text-4xl font-bold text-white text-center mb-16">How it works</h2>
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
-            {[
-              { icon: '📱', title: 'Book token', label: 'Search & book online' },
-              { icon: '🤖', title: 'AI triages', label: 'Analyzes symptoms' },
-              { icon: '⏰', title: 'Get ETS', label: 'Know when to arrive' },
-              { icon: '📡', title: 'Track live', label: 'Real-time updates' },
-              { icon: '✅', title: 'Done', label: 'Zero waiting room' },
-            ].map((step) => (
-              <div key={step.title} className="glass-card rounded-[28px] p-8 text-center">
-                <div className="mx-auto mb-5 h-16 w-16 rounded-full bg-white/10 flex items-center justify-center text-[28px] text-white">{step.icon}</div>
-                <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
-                <p className="text-sm text-text-secondary">{step.label}</p>
-              </div>
-            ))}
+          <div className="grid grid-cols-12 gap-4 sm:gap-8">
+            <div className="hidden sm:block col-span-2 border-r border-white/5 py-10 px-6">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted sticky top-32">
+                Partners
+              </p>
+            </div>
+            <div className="col-span-12 sm:col-span-10 px-6 py-6">
+              <PartnerTicker />
+            </div>
           </div>
         </div>
       </section>
 
-      <footer className="bg-bg px-6 py-16">
-        <div className="max-w-7xl mx-auto grid gap-12 lg:grid-cols-4 border-t border-white/10 pt-10 text-text-secondary">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3 text-white text-xl font-display font-bold">
-              <Zap className="w-6 h-6 text-primary" /> QueueCure
+      {/* ─── SYSTEM GRID ─── */}
+      <section className="border-b border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-12 gap-4 sm:gap-8">
+            <div className="hidden sm:block col-span-2 border-r border-white/5 py-12 sm:py-20 px-6">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted sticky top-32">
+                System
+              </p>
             </div>
-            <p className="max-w-md text-sm text-text-secondary">Patient-first hospital queue platform for Indian OPDs. Calm confidence in a stressful environment.</p>
-          </div>
-          <div>
-            <h4 className="text-base font-semibold text-white mb-4">Product</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link to="/patient/find" className="hover:text-white">Find Hospital</Link></li>
-              <li><Link to="/login" className="hover:text-white">Sign In</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-base font-semibold text-white mb-4">Company</h4>
-            <ul className="space-y-3 text-sm text-text-secondary">
-              <li className="hover:text-white cursor-pointer">About</li>
-              <li className="hover:text-white cursor-pointer">Privacy</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-base font-semibold text-white mb-4">Resources</h4>
-            <ul className="space-y-3 text-sm text-text-secondary">
-              <li className="hover:text-white cursor-pointer">Support</li>
-              <li className="hover:text-white cursor-pointer">Terms</li>
-            </ul>
+            <div className="col-span-12 sm:col-span-10 px-6 py-12 sm:py-20">
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-display font-bold leading-[0.9] tracking-[-0.04em] text-white mb-10 sm:mb-16">
+                No waiting.<br />
+                <span className="text-text-muted">Just</span> knowing.
+              </h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/5 border-t border-white/5">
+                {features.map((f) => (
+                  <div
+                    key={f.index}
+                    className="p-6 sm:p-8 lg:p-10 transition-colors duration-300 hover:bg-white/[0.03]"
+                  >
+                    <p className="text-xs sm:text-sm font-mono font-semibold text-text-muted mb-3 sm:mb-4">{f.index}</p>
+                    <h3 className="text-xl sm:text-2xl font-display font-bold text-white mb-3 tracking-tight">{f.title}</h3>
+                    <p className="text-sm sm:text-base text-text-secondary leading-relaxed">{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        <div className="mt-10 text-center text-sm text-[#94A3B8]">© 2024 QueueCure Technologies Pvt Ltd. All rights reserved.</div>
+      </section>
+
+      {/* ─── COMPARISON LIST ─── */}
+      <section className="border-b border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-12 gap-4 sm:gap-8">
+            <div className="hidden sm:block col-span-2 border-r border-white/5 py-12 sm:py-20 px-6">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted sticky top-32">
+                Why Different
+              </p>
+            </div>
+            <div className="col-span-12 sm:col-span-10 px-6 py-12 sm:py-20">
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-display font-bold leading-[0.9] tracking-[-0.04em] text-white mb-10 sm:mb-16">
+                QueueCure vs<br />
+                <span className="text-text-muted">the old way</span>
+              </h2>
+
+              <div className="divide-y divide-white/5">
+                {comparisons.map((c, i) => (
+                  <div
+                    key={c.label}
+                    className="flex items-center sm:items-baseline gap-4 sm:gap-6 lg:gap-10 py-4 sm:py-5 lg:py-6 px-2 sm:px-4 transition-colors duration-300 cursor-default"
+                    style={{
+                      background: hoveredComparison === i ? 'rgba(26,107,255,0.04)' : 'transparent',
+                    }}
+                    onMouseEnter={() => setHoveredComparison(i)}
+                    onMouseLeave={() => setHoveredComparison(null)}
+                  >
+                    <p className="text-xs font-mono font-semibold text-text-muted min-w-[2ch]">{c.label}</p>
+                    <div className="flex-1 flex items-center gap-3 sm:gap-6">
+                      <span className="text-sm text-text-muted line-through w-20 sm:w-24 shrink-0">{c.before}</span>
+                      <ArrowRight
+                        className="w-4 h-4 shrink-0 transition-colors duration-300"
+                        style={{
+                          color: hoveredComparison === i ? '#1A6BFF' : 'rgba(255,255,255,0.15)',
+                        }}
+                      />
+                      <span
+                        className="text-base sm:text-lg lg:text-xl font-bold transition-colors duration-300"
+                        style={{
+                          color: hoveredComparison === i ? '#1A6BFF' : '#ffffff',
+                        }}
+                      >
+                        {c.after}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── TESTIMONIALS ─── */}
+      <section className="border-b border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-12 gap-4 sm:gap-8">
+            <div className="hidden sm:block col-span-2 border-r border-white/5 py-12 sm:py-20 px-6">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted sticky top-32">
+                Voices
+              </p>
+            </div>
+            <div className="col-span-12 sm:col-span-10 px-6 py-12 sm:py-20">
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-display font-bold leading-[0.9] tracking-[-0.04em] text-white mb-10 sm:mb-16">
+                Trusted by<br />
+                <span className="text-primary">thousands</span>
+              </h2>
+              <TestimonialsMarquee />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA ─── */}
+      <section>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-12 gap-4 sm:gap-8">
+            <div className="hidden sm:block col-span-2 border-r border-white/5 py-12 sm:py-20 px-6">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted sticky top-32">
+                Access
+              </p>
+            </div>
+            <div className="col-span-12 sm:col-span-10 px-6 py-12 sm:py-20">
+              <h2 className="text-5xl sm:text-7xl lg:text-8xl font-display font-black leading-[0.85] tracking-[-0.05em] text-white mb-6">
+                Start exploring.
+              </h2>
+              <p className="text-base sm:text-lg text-text-secondary max-w-lg mb-8 sm:mb-10 leading-relaxed">
+                Join 14,000+ patients who've already skipped the waiting room. First token is free.
+              </p>
+              <div className="flex flex-wrap gap-4 sm:gap-6">
+                <Link
+                  to="/patient/find"
+                  className="inline-flex items-center gap-3 bg-primary text-white font-semibold text-sm sm:text-base uppercase tracking-wider px-8 sm:px-10 py-4 sm:py-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(26,107,255,0.4)]"
+                  style={{ borderRadius: 0 }}
+                >
+                  Book your first token <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link
+                  to="/login"
+                  className="inline-flex items-center text-sm sm:text-base text-text-secondary hover:text-white font-medium underline underline-offset-4 transition-colors"
+                >
+                  For clinics → Sign up
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── FOOTER ─── */}
+      <footer className="border-t border-white/5 px-6 py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto grid gap-8 sm:grid-cols-4">
+          <div className="col-span-2 sm:col-span-1">
+            <p className="text-2xl font-display font-bold tracking-tight text-white mb-3">QueueCure</p>
+            <p className="text-sm text-text-muted max-w-xs leading-relaxed">
+              Patient-first hospital queue platform for Indian OPDs.
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted mb-4">Product</p>
+            <div className="flex flex-col gap-2">
+              <Link to="/patient/find" className="text-sm text-text-secondary hover:text-white transition-colors">Find Hospital</Link>
+              <Link to="/patient/find" className="text-sm text-text-secondary hover:text-white transition-colors">How It Works</Link>
+              <Link to="/login" className="text-sm text-text-secondary hover:text-white transition-colors">Sign In</Link>
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted mb-4">Company</p>
+            <div className="flex flex-col gap-2">
+              <span className="text-sm text-text-secondary cursor-pointer hover:text-white transition-colors">About</span>
+              <span className="text-sm text-text-secondary cursor-pointer hover:text-white transition-colors">Privacy</span>
+              <span className="text-sm text-text-secondary cursor-pointer hover:text-white transition-colors">Terms</span>
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted mb-4">Connect</p>
+            <div className="flex flex-col gap-2">
+              <span className="text-sm text-text-secondary cursor-pointer hover:text-white transition-colors">Twitter</span>
+              <span className="text-sm text-text-secondary cursor-pointer hover:text-white transition-colors">LinkedIn</span>
+              <span className="text-sm text-text-secondary cursor-pointer hover:text-white transition-colors">Instagram</span>
+            </div>
+          </div>
+        </div>
+        <div className="mt-10 pt-6 border-t border-white/5 text-center text-xs text-text-muted">
+          © 2024 QueueCure Technologies Pvt Ltd. All rights reserved.
+        </div>
       </footer>
     </div>
   );
