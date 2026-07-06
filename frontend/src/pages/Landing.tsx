@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import PartnerTicker from '../components/PartnerTicker';
 import TestimonialsMarquee from '../components/TestimonialsMarquee';
 import { RollingCounter } from '../components/RollingCounter';
+import LightRays from '../components/LightRays';
 
 const stats = {
   clinics: 247,
@@ -43,7 +44,18 @@ export default function Landing() {
   const [hoveredComparison, setHoveredComparison] = useState<number | null>(null);
 
   return (
-    <div className="font-sans text-text-primary bg-bg min-h-screen overflow-x-hidden">
+    <div className="font-sans text-text-primary bg-bg min-h-screen overflow-x-hidden relative">
+      <LightRays
+        raysOrigin="top-center"
+        raysColor="#1A6BFF"
+        raysSpeed={0.6}
+        lightSpread={1.2}
+        rayLength={1.5}
+        followMouse={true}
+        mouseInfluence={0.08}
+        noiseAmount={0.03}
+        distortion={0.05}
+      />
       <Navbar />
 
       {/* ─── HERO ─── */}

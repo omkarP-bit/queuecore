@@ -20,81 +20,129 @@ interface ScrapedDoctor {
   avg_consult_minutes: number;
 }
 
-const FALLBACK_HOSPITALS: ScrapedHospital[] = [
-  { name: 'Apollo Clinic - Kalyani Nagar', city: 'Pune', specialty_tags: ['Cardiology', 'General', 'Orthopedics'] },
-  { name: 'Manipal Hospital - Baner', city: 'Pune', specialty_tags: ['Cardiology', 'Neurology', 'Pediatrics'] },
-  { name: 'Jehangir Hospital - Camp', city: 'Pune', specialty_tags: ['General', 'Cardiology', 'Pulmonology'] },
-  { name: 'KEM Hospital - Rasta Peth', city: 'Pune', specialty_tags: ['General', 'Cardiology', 'Pediatrics'] },
-  { name: 'Ruby Hall Clinic - Wanowrie', city: 'Pune', specialty_tags: ['Cardiology', 'Neurology', 'General'] },
-  { name: 'Noble Hospital - Hadapsar', city: 'Pune', specialty_tags: ['General', 'Orthopedics', 'Dermatology'] },
-  { name: 'Sahyadri Hospital - Karvenagar', city: 'Pune', specialty_tags: ['Cardiology', 'General', 'Neurology'] },
-  { name: 'Deenanath Mangeshkar Hospital - Erandwane', city: 'Pune', specialty_tags: ['Cardiology', 'General', 'Orthopedics', 'Pediatrics'] },
-  { name: 'Sancheti Hospital - Shivajinagar', city: 'Pune', specialty_tags: ['Orthopedics', 'General'] },
-  { name: 'Aditya Birla Hospital - Pimpri', city: 'Pune', specialty_tags: ['Cardiology', 'General', 'Neurology'] },
-  { name: 'City Hospital - FC Road', city: 'Pune', specialty_tags: ['General', 'Cardiology', 'Dermatology'] },
-  { name: 'Fortis Hospital - Viman Nagar', city: 'Pune', specialty_tags: ['Cardiology', 'General', 'Neurology'] },
+const AREA_NAMES: Record<string, string[]> = {
+  mumbai: ['Andheri West', 'Bandra Kurla', 'Lower Parel', 'Borivali', 'Malad', 'Thane', 'Navi Mumbai', 'Powai', 'Juhu', 'Ghatkopar'],
+  pune: ['Kalyani Nagar', 'Baner', 'Camp', 'Rasta Peth', 'Wanowrie', 'Hadapsar', 'Karvenagar', 'Erandwane', 'Shivajinagar', 'Pimpri', 'FC Road', 'Viman Nagar'],
+  bangalore: ['Indiranagar', 'Koramangala', 'MG Road', 'Whitefield', 'Jayanagar', 'Marathahalli', 'Electronic City', 'Yelahanka', 'Sadashiva Nagar', 'JP Nagar'],
+  delhi: ['Connaught Place', 'Karol Bagh', 'Lajpat Nagar', 'Dwarka', 'Rohini', 'Saket', 'Vasant Kunj', 'Greater Kailash', 'Pitampura', 'Hauz Khas'],
+  hyderabad: ['Hitech City', 'Gachibowli', 'Banjara Hills', 'Jubilee Hills', 'Madhapur', 'Kukatpally', 'Begumpet', 'Secunderabad', 'Ameerpet', 'Kondapur'],
+  chennai: ['T Nagar', 'Velachery', 'Adyar', 'Anna Nagar', 'Mylapore', 'Thoraipakkam', 'Guindy', 'Porur', 'Nungambakkam', 'Chromepet'],
+  kolkata: ['Salt Lake', 'New Town', 'Alipore', 'Ballygunge', 'Dum Dum', 'Howrah', 'Park Street', 'Rajarhat', 'Behala', 'Barasat'],
+  ahmedabad: ['Navrangpura', 'Prahlad Nagar', 'SG Highway', 'Bodakdev', 'Maninagar', 'Satellite', 'Vastrapur', 'Chandkheda', 'Naranpura', 'Thaltej'],
+};
+
+const HOSPITAL_CHAINS = [
+  'Apollo Clinic',
+  'Manipal Hospital',
+  'Jehangir Hospital',
+  'KEM Hospital',
+  'Ruby Hall Clinic',
+  'Noble Hospital',
+  'Sahyadri Hospital',
+  'Deenanath Mangeshkar Hospital',
+  'Sancheti Hospital',
+  'Aditya Birla Hospital',
+  'City Hospital',
+  'Fortis Hospital',
 ];
 
-const FALLBACK_DOCTORS: Record<string, ScrapedDoctor[]> = {
-  'Apollo Clinic - Kalyani Nagar': [
+const SPECIALTIES_POOL = [
+  ['Cardiology', 'General', 'Orthopedics'],
+  ['Cardiology', 'Neurology', 'Pediatrics'],
+  ['General', 'Cardiology', 'Pulmonology'],
+  ['General', 'Cardiology', 'Pediatrics'],
+  ['Cardiology', 'Neurology', 'General'],
+  ['General', 'Orthopedics', 'Dermatology'],
+  ['Cardiology', 'General', 'Neurology'],
+  ['Cardiology', 'General', 'Orthopedics', 'Pediatrics'],
+  ['Orthopedics', 'General'],
+  ['Cardiology', 'General', 'Neurology'],
+  ['General', 'Cardiology', 'Dermatology'],
+  ['Cardiology', 'General', 'Neurology'],
+];
+
+const DOCTOR_TEMPLATES: ScrapedDoctor[][] = [
+  [
     { name: 'Dr. Sanjay Verma', specialty: 'Cardiology', avg_consult_minutes: 15 },
     { name: 'Dr. Priya Mehta', specialty: 'General Physician', avg_consult_minutes: 10 },
     { name: 'Dr. Amit Khanna', specialty: 'Orthopedics', avg_consult_minutes: 20 },
   ],
-  'Manipal Hospital - Baner': [
+  [
     { name: 'Dr. Rohan Deshpande', specialty: 'Cardiology', avg_consult_minutes: 15 },
     { name: 'Dr. Sneha Patil', specialty: 'Pediatrics', avg_consult_minutes: 12 },
     { name: 'Dr. Vikram Joshi', specialty: 'Neurology', avg_consult_minutes: 25 },
   ],
-  'Jehangir Hospital - Camp': [
+  [
     { name: 'Dr. Anita Kulkarni', specialty: 'General Physician', avg_consult_minutes: 10 },
     { name: 'Dr. Prakash Rao', specialty: 'Pulmonology', avg_consult_minutes: 18 },
     { name: 'Dr. Meera Joshi', specialty: 'Gastroenterology', avg_consult_minutes: 20 },
   ],
-  'KEM Hospital - Rasta Peth': [
+  [
     { name: 'Dr. Shailesh Datar', specialty: 'Cardiology', avg_consult_minutes: 15 },
     { name: 'Dr. Nisha Agarwal', specialty: 'Pediatrics', avg_consult_minutes: 12 },
   ],
-  'Ruby Hall Clinic - Wanowrie': [
+  [
     { name: 'Dr. Arjun Nair', specialty: 'Cardiology', avg_consult_minutes: 18 },
     { name: 'Dr. Deepa Shah', specialty: 'Neurology', avg_consult_minutes: 22 },
   ],
-  'Noble Hospital - Hadapsar': [
+  [
     { name: 'Dr. Rajesh Patwardhan', specialty: 'General Physician', avg_consult_minutes: 10 },
     { name: 'Dr. Kavita Deshmukh', specialty: 'Dermatology', avg_consult_minutes: 15 },
     { name: 'Dr. Sameer Khan', specialty: 'ENT', avg_consult_minutes: 12 },
   ],
-  'Sahyadri Hospital - Karvenagar': [
+  [
     { name: 'Dr. Aditya Thakur', specialty: 'Cardiology', avg_consult_minutes: 15 },
     { name: 'Dr. Pallavi Kulkarni', specialty: 'General Physician', avg_consult_minutes: 10 },
   ],
-  'Deenanath Mangeshkar Hospital - Erandwane': [
+  [
     { name: 'Dr. Mohan Tendulkar', specialty: 'Cardiology', avg_consult_minutes: 18 },
     { name: 'Dr. Sunita Desai', specialty: 'Pediatrics', avg_consult_minutes: 12 },
     { name: 'Dr. Ravi Bapat', specialty: 'Orthopedics', avg_consult_minutes: 20 },
     { name: 'Dr. Anjali Dixit', specialty: 'Pulmonology', avg_consult_minutes: 16 },
   ],
-  'Sancheti Hospital - Shivajinagar': [
+  [
     { name: 'Dr. Kiran Sancheti', specialty: 'Orthopedics', avg_consult_minutes: 20 },
     { name: 'Dr. Reshma Iyer', specialty: 'Physical Therapy', avg_consult_minutes: 25 },
   ],
-  'Aditya Birla Hospital - Pimpri': [
+  [
     { name: 'Dr. Suresh Bhosale', specialty: 'Cardiology', avg_consult_minutes: 15 },
     { name: 'Dr. Neha Sharma', specialty: 'Pediatrics', avg_consult_minutes: 12 },
   ],
-  'City Hospital - FC Road': [
+  [
     { name: 'Dr. Priya Sharma', specialty: 'Cardiology', avg_consult_minutes: 15 },
     { name: 'Dr. Rakesh Jain', specialty: 'General Physician', avg_consult_minutes: 10 },
     { name: 'Dr. Tina Bagwe', specialty: 'Dermatology', avg_consult_minutes: 15 },
   ],
-  'Fortis Hospital - Viman Nagar': [
+  [
     { name: 'Dr. Manoj Agarwal', specialty: 'Cardiology', avg_consult_minutes: 18 },
     { name: 'Dr. Shweta Mishra', specialty: 'Neurology', avg_consult_minutes: 22 },
   ],
-};
+];
+
+function getAreasForCity(city: string): string[] {
+  const key = city.toLowerCase().replace(/\s+/g, '');
+  return AREA_NAMES[key] || [`${city}`];
+}
+
+function generateFallbackHospitals(city: string): ScrapedHospital[] {
+  const areas = getAreasForCity(city);
+  return HOSPITAL_CHAINS.map((chain, i) => ({
+    name: `${chain} - ${areas[i % areas.length]}`,
+    city,
+    specialty_tags: SPECIALTIES_POOL[i % SPECIALTIES_POOL.length],
+  }));
+}
+
+function generateFallbackDoctors(hospitals: ScrapedHospital[]): Record<string, ScrapedDoctor[]> {
+  const map: Record<string, ScrapedDoctor[]> = {};
+  hospitals.forEach((hosp, i) => {
+    map[hosp.name] = DOCTOR_TEMPLATES[i % DOCTOR_TEMPLATES.length];
+  });
+  return map;
+}
 
 class ProductionHealthScraper {
-  async scrapeHospitals(url: string): Promise<ScrapedHospital[]> {
+  async scrapeHospitals(url: string, city: string): Promise<ScrapedHospital[]> {
     console.log(`[HOSPITALS] Attempting to scrape: ${url}`);
 
     let browser;
@@ -114,10 +162,9 @@ class ProductionHealthScraper {
 
       await page.waitForTimeout(3000);
 
-      const hospitals: ScrapedHospital[] = await page.evaluate(() => {
+      const hospitals: ScrapedHospital[] = await page.evaluate((c) => {
         const results: ScrapedHospital[] = [];
 
-        // Try multiple selector patterns used by Practo
         const selectors = [
           '.c-Card',
           '.listing-hospital-card',
@@ -139,7 +186,6 @@ class ProductionHealthScraper {
         if (!cards || cards.length === 0) return results;
 
         cards.forEach((card) => {
-          // Try various name selectors
           const nameSelectors = [
             '.c-card-hospital__title',
             'h2',
@@ -156,8 +202,6 @@ class ProductionHealthScraper {
             }
           }
 
-          const city = 'Pune';
-
           const tags: string[] = [];
           const tagSelectors = ['.c-card-hospital__tag', '.specialty-tag', '[data-test-id="specialty"]', 'span[class*="tag"]'];
           for (const sel of tagSelectors) {
@@ -167,12 +211,12 @@ class ProductionHealthScraper {
           }
 
           if (name && name.length > 0 && name.length < 100) {
-            results.push({ name, city, specialty_tags: tags.length > 0 ? [...new Set(tags)] : ['General'] });
+            results.push({ name, city: c, specialty_tags: tags.length > 0 ? [...new Set(tags)] : ['General'] });
           }
         });
 
         return results;
-      });
+      }, city);
 
       return hospitals;
     } catch (error) {
@@ -323,13 +367,12 @@ class ProductionHealthScraper {
   }
 }
 
-async function runScraper() {
+async function runScraper(city: string) {
   const scraper = new ProductionHealthScraper();
 
-  // Try scraping Practo first (may fail due to anti-scraping)
-  const targetUrl = 'https://www.practo.com/pune/hospitals';
+  const targetUrl = `https://www.practo.com/${city}/hospitals`;
   console.log(`Attempting to scrape: ${targetUrl}`);
-  const scraped = await scraper.scrapeHospitals(targetUrl);
+  const scraped = await scraper.scrapeHospitals(targetUrl, city);
 
   if (scraped.length > 0) {
     console.log(`\nScraped ${scraped.length} hospitals successfully.`);
@@ -342,14 +385,18 @@ async function runScraper() {
 
     await scraper.seedDatabase(scraped, doctorsMap);
   } else {
-    // Fallback to comprehensive seed data
-    console.log('\nScraping failed or returned no results. Falling back to curated Pune hospital data...');
-    await scraper.seedDatabase(FALLBACK_HOSPITALS, FALLBACK_DOCTORS);
+    console.log(`\nScraping failed or returned no results. Falling back to curated ${city} hospital data...`);
+    const fallbackHospitals = generateFallbackHospitals(city);
+    const fallbackDoctors = generateFallbackDoctors(fallbackHospitals);
+    await scraper.seedDatabase(fallbackHospitals, fallbackDoctors);
   }
 }
 
+const cityArg = process.argv.find(a => a.startsWith('--city='))?.split('=')[1] || process.argv[2] || 'pune';
+const targetCity = cityArg.toLowerCase().replace(/\s+/g, '');
+
 if (require.main === module) {
-  runScraper().then(() => process.exit(0)).catch((err) => {
+  runScraper(targetCity).then(() => process.exit(0)).catch((err) => {
     console.error(err);
     process.exit(1);
   });

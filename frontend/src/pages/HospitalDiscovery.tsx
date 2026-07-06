@@ -12,13 +12,23 @@ export default function HospitalDiscovery() {
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
-        () => {
+        async (pos) => {
           setLocationEnabled(true);
-          fetchHospitals('Pune');
-        },
-        () => {
+          try {
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=en`,
+              { headers: { 'User-Agent': 'QueueCure/1.0' } }
+            );
+            const geo = await res.json();
+            const detectedCity = geo?.address?.city || geo?.address?.town || geo?.address?.county || '';
+            if (detectedCity) {
+              fetchHospitals(detectedCity);
+              return;
+            }
+          } catch {}
           fetchHospitals();
-        }
+        },
+        () => fetchHospitals()
       );
     } else {
       fetchHospitals();
@@ -28,7 +38,9 @@ export default function HospitalDiscovery() {
   const fetchHospitals = async (city?: string) => {
     setLoading(true);
     try {
-      const data = await hospitalService.getHospitals(city ? { city } : {});
+      const params: Record<string, string> = {};
+      if (city) params.city = city;
+      const data = await hospitalService.getHospitals(params);
       setHospitals(data || []);
     } catch (e) {
       console.error(e);

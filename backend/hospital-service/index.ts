@@ -14,8 +14,8 @@ app.use(cors());
 app.use(express.json());
 
 const supabaseUrl = process.env.SUPABASE_URL || '';
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseKey, {
   realtime: {
     transport: WebSocket,
   },
@@ -31,7 +31,7 @@ app.get('/hospitals', async (req, res) => {
     .from('hospitals')
     .select('*, doctors(*)');
 
-  if (city) query = query.eq('city', city as string);
+  if (city) query = query.ilike('city', `%${(city as string).trim()}%`);
   if (specialty) query = query.contains('specialty_tags', [specialty as string]);
 
   const { data, error } = await query;

@@ -6,7 +6,18 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scrape": "tsx scraper.ts"
+    "scrape": "tsx scraper.ts",
+    "scrape:mumbai": "tsx scraper.ts --city=mumbai",
+    "scrape:bangalore": "tsx scraper.ts --city=bangalore",
+    "scrape:delhi": "tsx scraper.ts --city=delhi",
+    "scrape:hyderabad": "tsx scraper.ts --city=hyderabad",
+    "scrape:chennai": "tsx scraper.ts --city=chennai",
+    "scrape:kolkata": "tsx scraper.ts --city=kolkata",
+    "scrape:ahmedabad": "tsx scraper.ts --city=ahmedabad",
+    "seed": "node seed.js",
+    "seed:mumbai": "node seed.js --city=mumbai",
+    "seed:bangalore": "node seed.js --city=bangalore",
+    "seed:delhi": "node seed.js --city=delhi"
   },
   "keywords": [],
   "author": "",
